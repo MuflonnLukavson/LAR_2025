@@ -19,9 +19,10 @@ mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
 # Doing bitwise AND between img and mask -> getting yellow parts of the img
 yellow_regions = cv2.bitwise_and(img,img, mask= mask)
+out = cv2.connectedComponentsWithStats(mask)
 
 # Getting countours 
-contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 # contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
 # Drawing countours
