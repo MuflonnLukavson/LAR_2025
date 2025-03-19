@@ -3,49 +3,25 @@
 # from robolab_turtlebot import Turtlebot
 import numpy as np
 import cv2
-
+import image_seg as im
 # turtle = Turtlebot()
 
-def clear_mask(mask, r, c, x_len, y_len):
-    for i in range(y_len):
-        for j in range(x_len):
-            mask[r + i][c + j] = 0
 
-def check_prop_tube(x_len, y_len):
-    print(max(x_len,y_len)/min(x_len,y_len))
-    return max(x_len,y_len)/min(x_len,y_len) < 3
-
-
-def get_overall_bright(img):
-    # add up all the pixel values in V channel
-    value = np.sum(img[:,:, 2])
-    # multiply height and width
-    pxl = img.shape[0] * img.shape[1]
-    average_value = round(value/pxl,3)
-    return average_value
-
-def gamma_correction(img, gamma):
-    lookUpTable = np.empty((1,256), np.uint8)
-    for i in range(256):
-        lookUpTable[0,i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
- 
-    res = cv2.LUT(img, lookUpTable)
-    return res
 
 # img = turtle.get_rgb_image()
 def green_tube_segmentation(img):
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    avg_bright = get_overall_bright(img)
+    avg_bright = im.get_overall_bright(img)
     # Creating sets for green color
 
     print(avg_bright)
-    # if avg_bright < 120:
-    #     lower_green = np.array([40, 50, 50])
-    #     upper_green = np.array([70, 255, 255])
-    # else:
-    lower_green = np.array([35, 80, 80])
-    upper_green = np.array([85, 255, 255])
+    if avg_bright < 120:
+        lower_green = np.array([40, 50, 50])
+        upper_green = np.array([70, 255, 255])
+    else:
+        lower_green = np.array([35, 80, 80])
+        upper_green = np.array([85, 255, 255])
 
     # Masking green - where it is in bounds -> sets 1 
     mask = cv2.inRange(hsv, lower_green, upper_green)
@@ -63,7 +39,7 @@ def green_tube_segmentation(img):
         c, r, x_len, y_len, area = out[2][i]
         if ( (area < 200) or (r + y_len < 100)):
             pass
-            clear_mask(mask, r, c, x_len, y_len)
+            im.clear_mask(mask, r, c, x_len, y_len)
         else:
             rem_out.append(out[2][i])
             pass
@@ -80,9 +56,9 @@ def green_tube_segmentation(img):
         hull = cv2.convexHull(contours[i])
         rect = cv2.minAreaRect(contours[i])
         rect_width, rect_length = rect[1]
-        if (check_prop_tube(rect_length, rect_width)):
+        if (im.check_prop_tube(rect_length, rect_width)):
             print("proportions check: ",rect_length, rect_width)
-            clear_mask(mask, r, c, x_len, y_len)
+            im.clear_mask(mask, r, c, x_len, y_len)
         else:
             hull_list.append(hull)
 
@@ -114,12 +90,12 @@ def green_tube_segmentation(img):
 
 ##  ISSUES
 # aligning tubes - 33! ,34, 35, 48, 50, 52
-# fallen tubes 41 42
+# fallen tubes 41 42, 43
 # brightness - 43, 44, 45!, 46!, 47!, 48, 49, 50, 51, 52
 #54
 # false positives - 55
-# far out - 58
+# too far - 58
 if __name__ == '__main__':
-    img = cv2.imread("ball_images\\50.png")
+    img = cv2.imread("ball_images\\48.png")
 
     green_tube_segmentation(img)
