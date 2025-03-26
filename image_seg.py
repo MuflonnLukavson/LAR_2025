@@ -15,11 +15,10 @@ color_table_dark = {
     "red" : [np.array([0, 80, 65]), np.array([8, 255, 255]), np.array([172,80,65]), np.array([179,255,255])],
 }
 
-def get_overall_bright(img):
+def get_overall_bright(hsv):
     """
     gets overall brigthnes of image from HSV color space
     """
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # add up all the pixel values in V channel
     value = np.sum(hsv[:,:, 2])
     # multiply height and width

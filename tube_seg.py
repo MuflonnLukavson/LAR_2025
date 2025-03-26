@@ -3,11 +3,10 @@
 import numpy as np
 import cv2
 import image_seg as im
+import objects as obj
 
-
-def color_tube_segmentation(img, color, avg_bright):
+def color_tube_segmentation(hsv, color, avg_bright, point_c):
     # color space conversion
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Masking image
     mask = im.masking_img(hsv,color, avg_bright)
@@ -35,6 +34,7 @@ def color_tube_segmentation(img, color, avg_bright):
 
     # Find the convex hull object for each contour
     hull_list = []
+    object_list = []
     for i in range(len(contours)):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
@@ -44,6 +44,8 @@ def color_tube_segmentation(img, color, avg_bright):
             print("proportions check: ",rect_length, rect_width)
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
+            x,y  = out[3][-i-1]
+            object_list.append(obj.Object(color, x, y, point_c))
             hull_list.append(hull)
 
 
@@ -64,24 +66,31 @@ def color_tube_segmentation(img, color, avg_bright):
     # k = cv2.waitKey(5000) & 0xFF
     
     # cv2.destroyAllWindows()
-    return mask
+    return mask, object_list
 
 
-def segment_all_tubes(img, bright):
+def segment_all_tubes(img, point_c = None):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    bright = im.get_overall_bright(hsv)
     colors = ["blue", "red", "green"]
     mask = []
+    objects = []
     for color in colors:
-        new_mask = color_tube_segmentation(img, color, bright)
+        new_mask, new_obj = color_tube_segmentation(hsv, color, bright, point_c)
         if len(mask) == 0:
             mask = new_mask
+            objects = new_obj
         else:
             mask = mask + new_mask
+            objects.extend(new_obj)
+    print(objects)
 
     cv2.imshow("img",img)
     cv2.imshow('mask', mask)
     k = cv2.waitKey(5000) & 0xFF
     
     cv2.destroyAllWindows()
+    return mask
 
 ##  ISSUES
 # aligning tubes - 33! ,34, 35, 48, 50, 52 - not a big problem
@@ -100,7 +109,7 @@ def segment_all_tubes(img, bright):
 """
 
 if __name__ == '__main__':
-    img = cv2.imread("ball_images\\58.png")
-    avg_bright = im.get_overall_bright(img)
-    print(avg_bright)
-    segment_all_tubes(img, avg_bright)
+    img = cv2.imread("ball_images\\40.png")
+    
+    # color_tube_segmentation(img, "red", avg_bright, None)
+    segment_all_tubes(img, point_c= None)

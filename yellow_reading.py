@@ -61,7 +61,6 @@ def ball_segmentation(img):
         circ = cv2.minEnclosingCircle(contours[i])
         circ_r = circ[1]
         if im.check_rect_circ(rect_width, rect_length, circ_r):
-            print("got it")
             hull_list.append(hull)
         else:
             im.clear_mask(mask, r, c, x_len, y_len)
@@ -92,12 +91,4 @@ def ball_segmentation(img):
 if __name__ == '__main__':
     img = cv2.imread("ball_images\\40.png")
     avg_bright = im.get_overall_bright(img)
-    print("brightness: ",avg_bright)
-    new_img = im.gamma_correction(img, 0.55)
-
-    avg_bright_new = im.get_overall_bright(new_img)
-    print("New brightness: ",avg_bright_new)
-
     ball_segmentation(img)
-
-    ball_segmentation(new_img)
