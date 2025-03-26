@@ -31,8 +31,15 @@ class Object():
     def map_to_pc(self, im_x, im_y, pc):
         x = int(round(im_x))
         y = int(round(im_y))
-        print(x,y)
+        print(x,y)  
+        res_pos = []
         for i in range(5):
             for j in range(5):
-                print(pc[y + i][x + j])
-        return [pc[y][x]]
+                if y + i < 480 and x + j < 640:
+                    print(pc[y + i][x + j])
+                    pos = pc[y+i][x+j]
+                    if len(pos) == 0 or res_pos[2] < pos[2]:
+                        res_pos = pos
+                    else:
+                        pass
+        return res_pos
