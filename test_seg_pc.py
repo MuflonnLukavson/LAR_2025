@@ -15,6 +15,7 @@ def main():
     rate = Rate(10000)
 
     cnt = 0
+    print("test")
     while not turtle.is_shutting_down() and cnt < 5:
         # get point cloud
         pc = turtle.get_point_cloud()
