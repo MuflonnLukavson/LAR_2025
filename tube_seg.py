@@ -45,6 +45,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
             x,y  = out[3][-i-1]
+            print(x,y)
             object_list.append(obj.Object(color, x, y, point_c))
             hull_list.append(hull)
 

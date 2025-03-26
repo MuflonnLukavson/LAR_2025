@@ -29,8 +29,8 @@ class Object():
         return [pc[y][x]]
     
     def map_to_pc(self, im_x, im_y, pc):
-        x = round(im_x)
-        y = round(im_y)
+        x = int(round(im_x))
+        y = int(round(im_y))
         print(x,y)
         for i in range(5):
             for j in range(5):
