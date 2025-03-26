@@ -17,11 +17,10 @@ def main():
         # get point cloud
         turtle.wait_for_point_cloud()
         turtle.wait_for_rgb_image()
+
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
-        if pc or img is None:
-            continue
         cnt += 1
         seg.segment_all_tubes(img, pc)
         print("-------------------------")
