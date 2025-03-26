@@ -9,7 +9,7 @@ class Object():
         self.color = color  # TODO
         self.im_center_pos = [im_center_x, im_center_y]
 
-        if pc:
+        if len(pc) > 0:
             self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc)
         else:
             self.pc_pos = None

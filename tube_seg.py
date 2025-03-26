@@ -69,7 +69,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     return mask, object_list
 
 
-def segment_all_tubes(img, point_c = None):
+def segment_all_tubes(img, point_c = []):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     bright = im.get_overall_bright(hsv)
     colors = ["blue", "red", "green"]
