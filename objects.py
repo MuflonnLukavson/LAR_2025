@@ -31,6 +31,7 @@ class Object():
     def map_to_pc(self, im_x, im_y, pc):
         x = round(im_x)
         y = round(im_y)
+        print(x,y)
         for i in range(5):
             for j in range(5):
                 print(pc[y + i][x + j])
