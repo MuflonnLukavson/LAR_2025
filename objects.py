@@ -38,7 +38,7 @@ class Object():
                 if y + i < 480 and x + j < 640:
                     print(pc[y + i][x + j])
                     pos = pc[y+i][x+j]
-                    if len(pos) == 0 or res_pos[2] < pos[2]:
+                    if len(res_pos) == 0 or res_pos[2] < pos[2]:
                         res_pos = pos
                     else:
                         pass
