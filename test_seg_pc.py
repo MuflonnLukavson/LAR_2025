@@ -21,6 +21,7 @@ def main():
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
+        print(pc)
         cnt += 1
         seg.segment_all_tubes(img, pc)
         print("-------------------------")
