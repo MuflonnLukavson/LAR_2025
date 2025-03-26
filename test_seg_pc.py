@@ -4,9 +4,6 @@ from robolab_turtlebot import Turtlebot, Rate
 import tube_seg as seg
 
 
-x_range = (-0.3, 0.3)
-z_range = (0.3, 3.0)
-WINDOW = 'obstacles'
 
 
 def main():
@@ -18,6 +15,8 @@ def main():
     print("test")
     while not turtle.is_shutting_down() and cnt < 5:
         # get point cloud
+        turtle.wait_for_point_cloud()
+        turtle.wait_for_rgb_image()
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
