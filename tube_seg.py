@@ -85,11 +85,11 @@ def segment_all_tubes(img, point_c = None):
             objects.extend(new_obj)
     print(objects)
 
-    cv2.imshow("img",img)
-    cv2.imshow('mask', mask)
-    k = cv2.waitKey(5000) & 0xFF
+    # cv2.imshow("img",img)
+    # cv2.imshow('mask', mask)
+    # k = cv2.waitKey(5000) & 0xFF
     
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     return mask
 
 ##  ISSUES
