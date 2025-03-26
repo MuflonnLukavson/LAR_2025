@@ -23,6 +23,7 @@ def main():
         img = turtle.get_rgb_image()
 
         cnt += 1
+        # segments all tubes
         seg.segment_all_tubes(img, pc)
         input("--------------------")
         rate.sleep()

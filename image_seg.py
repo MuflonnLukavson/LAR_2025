@@ -1,8 +1,8 @@
-## Funcitons used for image segmentation
+## File with funcitons used for image segmentation
 import cv2
 import numpy as np
 
-# color table [lower,higher] boundary
+# color table [lower,higher] boundary for bright and dark conditions
 color_table_bright = {
     "green" : [np.array([35, 80, 80]), np.array([85, 255, 255])],
     "blue" : [np.array([78, 130, 80]), np.array([138, 255, 255])],
@@ -63,7 +63,10 @@ def check_rect_circ(rect_wid, rect_len, circ_r):
     return 1.15 * rect_len*rect_wid > np.pi * (circ_r**2)
 
 def masking_img(img, color, bright):
-
+    """
+    Function for masking the image based on color
+    It makes color boundaries and returns mask of required color
+    """
     if color != "red":
         if bright < 120:
             lower_bound, upper_bound = color_table_dark[color]

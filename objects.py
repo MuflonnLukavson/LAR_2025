@@ -6,19 +6,19 @@ barrier = 3
 
 class Object():
     def __init__(self, color, im_center_x, im_center_y, pc):
-        self.color = color  # TODO
-        self.im_center_pos = [im_center_x, im_center_y]
+        self.color = color  # TODO color of object
+        self.im_center_pos = [im_center_x, im_center_y] # position of center of the object in the picture
 
         if len(pc) > 0:
-            self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc)
+            self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc) # position of the center in point cloud
         else:
             self.pc_pos = None
 
     def __repr__(self):
-        return f"{self.color}, im_center: {self.im_center_pos}, pc_center: {self.pc_pos}\n"
+        return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}\n"
     
 
-    def trasform_pos_im2ref(self):
+    def trasform_pos_pc2ref(self):
         #TODO
         pass
 
@@ -28,6 +28,7 @@ class Object():
         Gets minumum distanced coords of 5x5 surrounding pixels
         values are in meters
         """
+        # TODO sometimes returns NaN - is it a problem?
         x = int(round(im_x))
         y = int(round(im_y))
         # print(x,y)  

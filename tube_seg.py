@@ -10,20 +10,22 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     # Masking image
     mask = im.masking_img(hsv,color, avg_bright)
 
+    # Get stats of segmented components after color masking
     out = cv2.connectedComponentsWithStats(mask)
 
-
-    rem_out = []
+    # rem_out = []
+    # Removing components smaller than defined area or ones that are too high
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
         if ( (area < 800) or (r + y_len < 100)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
-            rem_out.append(out[2][i])
+            # rem_out.append(out[2][i])
             pass
-    rem_out = rem_out[::-1]
+    # rem_out = rem_out[::-1]
 
+    # Getting stats of componets that are remaining
     out = cv2.connectedComponentsWithStats(mask)
 
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -56,11 +58,15 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
 
 
 def segment_all_tubes(img, point_c = []):
+    """
+    segmetns all tubes, returns array of objects (see objects.py)
+    """
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     bright = im.get_overall_bright(hsv)
     colors = ["blue", "red", "green"]
     mask = []
     objects = []
+    # goint threw colors
     for color in colors:
         new_mask, new_obj = color_tube_segmentation(hsv, color, bright, point_c)
         if len(mask) == 0:
@@ -71,12 +77,14 @@ def segment_all_tubes(img, point_c = []):
             objects.extend(new_obj)
     print(objects)
 
+
+    ## Showing mask of the segmented image (does not work for windows <3)
     # cv2.imshow("img",img)
     # cv2.imshow('mask', mask)
     # k = cv2.waitKey(5000) & 0xFF
     
     # cv2.destroyAllWindows()
-    return mask
+    return objects
 
 ##  ISSUES
 # aligning tubes - 33! ,34, 35, 48, 50, 52 - not a big problem
@@ -89,7 +97,7 @@ def segment_all_tubes(img, point_c = []):
 
 ## TODO
 """
-- low brigthnes for red
+- low brigthness for red
 - issues with segmentetation
 - linking to pointcloud
 """
@@ -97,5 +105,4 @@ def segment_all_tubes(img, point_c = []):
 if __name__ == '__main__':
     img = cv2.imread("ball_images\\40.png")
     
-    # color_tube_segmentation(img, "red", avg_bright, None)
     segment_all_tubes(img, point_c= None)
