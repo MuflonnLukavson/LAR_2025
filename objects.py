@@ -22,21 +22,20 @@ class Object():
         #TODO
         pass
 
-    def map_to_pc_im(self, pc):
-        "maps cetner to pointcloud (argument: pointcloud)"
-        # pc x,y,z - image x, image y, how far it is
-        x, y = self.im_center_pos
-        return [pc[y][x]]
     
     def map_to_pc(self, im_x, im_y, pc):
+        """
+        Gets minumum distanced coords of 5x5 surrounding pixels
+        values are in meters
+        """
         x = int(round(im_x))
         y = int(round(im_y))
-        print(x,y)  
+        # print(x,y)  
         res_pos = []
         for i in range(5):
             for j in range(5):
                 if y + i < 480 and x + j < 640:
-                    print(pc[y + i][x + j])
+                    # print(pc[y + i][x + j])
                     pos = pc[y+i][x+j]
                     if len(res_pos) == 0 or res_pos[2] > pos[2]:
                         res_pos = pos

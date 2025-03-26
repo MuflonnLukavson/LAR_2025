@@ -6,14 +6,10 @@ import image_seg as im
 import objects as obj
 
 def color_tube_segmentation(hsv, color, avg_bright, point_c):
-    # color space conversion
-
+    "segmenting tubes based on colour"
     # Masking image
     mask = im.masking_img(hsv,color, avg_bright)
 
-    # cv2.imshow('mask',mask)
-
-    # getting components and stats
     out = cv2.connectedComponentsWithStats(mask)
 
 
@@ -41,22 +37,12 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
         rect = cv2.minAreaRect(contours[i])
         rect_length, rect_width = rect[1]
         if not (im.is_tube(rect_length, rect_width)):
-            print("proportions check: ",rect_length, rect_width)
+            # print("proportions check: ",rect_length, rect_width)
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
             x,y  = out[3][-i-1]
             object_list.append(obj.Object(color, x, y, point_c))
             hull_list.append(hull)
-
-
-
-    ## Drawing countours
-    # cv2.drawContours(img, contours, -1, (0,255,0), 3)
-    # for i in range(len(hull_list)):
-    #     color = (255, 0, 0)
-        # cv2.drawContours(img, hull_list, i, color)
-        # cv2.drawContours(mask, hull_list, i, color)
-
 
 
     ## Creating windows with images
