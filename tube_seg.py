@@ -78,8 +78,9 @@ def segment_all(img, point_c = []):
             objects.extend(new_obj)
     mask_ball, ball = bRead.ball_segmentation(hsv, bright, point_c)
     
-    mask = mask + mask_ball
-    objects.append(ball)
+    if ball is not None:
+        mask = mask + mask_ball
+        objects.append(ball)
 
     print(objects)
 
