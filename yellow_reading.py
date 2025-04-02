@@ -25,7 +25,6 @@ def ball_segmentation(hsv, avg_bright, point_c):
     mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
 
-    cv2.imshow('mask',mask)
     # Doing bitwise AND between img and mask -> getting yellow parts of the img
     # yellow_regions = cv2.bitwise_and(img,img, mask= mask)
     out = cv2.connectedComponentsWithStats(mask)
@@ -39,7 +38,6 @@ def ball_segmentation(hsv, avg_bright, point_c):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         elif ( im.check_prop_circle(x_len, y_len)):
-            print("proportions check: ",out[2][i], c, r, "|", mask[r][c], out[1][r][c])
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
             rem_out.append(out[2][i])
