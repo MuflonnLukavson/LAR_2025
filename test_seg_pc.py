@@ -23,7 +23,7 @@ def main():
 
         cnt += 1
         # segments all tubes
-        mask_tubes, tubes = seg.segment_all(img, pc)
+        tubes = seg.segment_all(img, pc)
         input("--------------------")
         rate.sleep()
 
