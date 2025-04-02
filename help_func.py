@@ -24,3 +24,4 @@ def button_cb(msg):
 
     # msg.state stores the event 0:RELEASED, 1:PRESSED
     state = state_names[msg.state]
+    print('{} {}'.format(butt, state))
