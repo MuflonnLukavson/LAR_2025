@@ -50,6 +50,7 @@ def ball_segmentation(hsv, avg_bright, point_c):
 
     # Find the convex hull object for each contour
     hull_list = []
+    ball = None
     for i in range(len(contours)):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
