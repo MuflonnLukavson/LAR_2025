@@ -79,7 +79,7 @@ def segment_all(img, point_c = []):
     mask_ball, ball = bRead.ball_segmentation(hsv, bright, point_c)
     
     mask = mask + mask_ball
-    objects.extend(ball)
+    objects.append(ball)
 
     print(objects)
 
