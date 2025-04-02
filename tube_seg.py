@@ -82,7 +82,6 @@ def segment_all(img, point_c = []):
         mask = mask + mask_ball
         objects.append(ball)
 
-    print(objects)
 
 
     ## Showing mask of the segmented image (does not work for windows <3)
