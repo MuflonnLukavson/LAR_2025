@@ -1,4 +1,5 @@
 # Working with objects and their purpouse
+import math as m
 
 ball = 1
 goal = 2
@@ -16,7 +17,6 @@ class Object():
 
     def __repr__(self):
         return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}\n"
-    
 
     def trasform_pos_pc2ref(self):
         #TODO
@@ -38,7 +38,7 @@ class Object():
                 if y + i < 480 and x + j < 640:
                     # print(pc[y + i][x + j])
                     pos = pc[y+i][x+j]
-                    if len(res_pos) == 0 or res_pos[2] > pos[2]:
+                    if (len(res_pos) == 0 or res_pos[2] > pos[2]) and not (m.isnan(pos[2])):
                         res_pos = pos
                     else:
                         pass

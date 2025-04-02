@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import image_seg as im
 import objects as obj
+import yellow_reading as bRead
 
 def color_tube_segmentation(hsv, color, avg_bright, point_c):
     "segmenting tubes based on colour"
@@ -57,7 +58,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     return mask, object_list
 
 
-def segment_all_tubes(img, point_c = []):
+def segment_all(img, point_c = []):
     """
     segmetns all tubes, returns array of objects (see objects.py)
     """
@@ -75,6 +76,11 @@ def segment_all_tubes(img, point_c = []):
         else:
             mask = mask + new_mask
             objects.extend(new_obj)
+    mask_ball, ball = bRead.ball_segmentation()
+    
+    mask = mask + mask_ball
+    objects.extend(ball)
+
     print(objects)
 
 
@@ -105,4 +111,4 @@ def segment_all_tubes(img, point_c = []):
 if __name__ == '__main__':
     img = cv2.imread("ball_images\\40.png")
     
-    segment_all_tubes(img, point_c= None)
+    segment_all(img, point_c= None)

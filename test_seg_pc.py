@@ -3,8 +3,7 @@
 
 from robolab_turtlebot import Turtlebot, Rate
 import tube_seg as seg
-
-
+import yellow_reading as bRead
 
 
 def main():
@@ -24,7 +23,7 @@ def main():
 
         cnt += 1
         # segments all tubes
-        seg.segment_all_tubes(img, pc)
+        mask_tubes, tubes = seg.segment_all(img, pc)
         input("--------------------")
         rate.sleep()
 

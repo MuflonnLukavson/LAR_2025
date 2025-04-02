@@ -1,3 +1,5 @@
+# Saving image as png file
+
 from __future__ import print_function
 
 import sys

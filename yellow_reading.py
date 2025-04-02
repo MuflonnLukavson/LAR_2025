@@ -4,15 +4,14 @@
 import numpy as np
 import cv2
 import image_seg as im
+import objects as obj
 # turtle = Turtlebot()
 
 
 
 # img = turtle.get_rgb_image()
-def ball_segmentation(img):
+def ball_segmentation(hsv, avg_bright, point_c):
 
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    avg_bright = im.get_overall_bright(img)
     # Creating sets for yellow color
 
     if avg_bright < 120:
@@ -61,7 +60,9 @@ def ball_segmentation(img):
         circ = cv2.minEnclosingCircle(contours[i])
         circ_r = circ[1]
         if im.check_rect_circ(rect_width, rect_length, circ_r):
+            x,y  = out[3][-i-1]
             hull_list.append(hull)
+            ball = obj.Object("yellow", x ,y, point_c)
         else:
             im.clear_mask(mask, r, c, x_len, y_len)
             pass
@@ -69,17 +70,18 @@ def ball_segmentation(img):
 
     # Filtering 
     # Drawing countours
-    cv2.drawContours(img, contours, -1, (0,255,0), 3)
-    for i in range(len(hull_list)):
-        color = (255, 0, 0)
-        cv2.drawContours(img, hull_list, i, color)
-        cv2.drawContours(mask, hull_list, i, color)
+    # cv2.drawContours(img, contours, -1, (0,255,0), 3)
+    # for i in range(len(hull_list)):
+    #     color = (255, 0, 0)
+    #     cv2.drawContours(img, hull_list, i, color)
+    #     cv2.drawContours(mask, hull_list, i, color)
 
-    cv2.imshow('img',img)
-    cv2.imshow('mask2',mask)
-    k = cv2.waitKey(5000) & 0xFF
+    # cv2.imshow('img',img)
+    # cv2.imshow('mask2',mask)
+    # k = cv2.waitKey(5000) & 0xFF
     
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
+    return mask, ball
 
 
 ##  ISSUES
