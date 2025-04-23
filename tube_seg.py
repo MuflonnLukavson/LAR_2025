@@ -42,8 +42,9 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     for i in range(len(contours)):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
-        rect = cv2.minAreaRect(contours[i])
-        rect_length, rect_width = rect[1]
+        rect = cv2.boundingRect(contours[i])
+        rect_length, rect_width = rect[2], rect[3]
+        print(rect)
         if not (im.is_tube(rect_length, rect_width)):
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
