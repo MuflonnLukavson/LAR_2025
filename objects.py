@@ -31,7 +31,7 @@ class Object():
         print(c,s)
         R_matrix = np.array(((c , -s),(s, c)))
         H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
-        print("R, M:",R_matrix, H_matrix, sep = "\n")
+        print("R, M:",R_matrix, H_matrix, " ", sep = "\n")
         if len(self.pc_pos) > 0:
             print(H_matrix, self.pc_pos)
             coords = H_matrix.dot(self.pc_pos)
