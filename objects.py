@@ -23,13 +23,13 @@ class Object():
 
     def trasform_pos_pc2ref(self):
         #TODO
-        theta = 0
+        theta = m.pi/4
         t1, t2 = 0, 0
         c, s = np.cos(theta), np.sin(theta)
         print(c,s)
-        R_matrix = np.array((c , -s),(s, c))
+        R_matrix = np.array(((c , -s),(s, c)))
         H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
-        print(R_matrix, H_matrix)
+        print(R_matrix, H_matrix, sep = "\n")
         pass
 
     
