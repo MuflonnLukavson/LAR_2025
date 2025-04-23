@@ -14,14 +14,14 @@ class Object():
         if len(pc) > 0:
             # position of the center in point cloud
             self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc) 
-            self.test = self.trasform_pos_pc2ref()
+            self.coords_2D = self.trasform_pos_pc2ref()
         else:
             self.pc_pos = None
 
     def __repr__(self):
-        return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}\n"
+        return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}, 2D: {self.coords_2D}\n"
 
-    def trasform_pos_pc2ref(self):
+    def trasform_pos_pc2ref(self, odo):
         #TODO
         theta = m.pi/4
         t1, t2 = 0, 0
@@ -30,7 +30,10 @@ class Object():
         R_matrix = np.array(((c , -s),(s, c)))
         H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
         print(R_matrix, H_matrix, sep = "\n")
-        pass
+        if self.im_center_pos:
+            coords = H_matrix.dot(self.im_center_pos)
+        print(coords) 
+        return 
 
     
     def map_to_pc(self, im_x, im_y, pc):
