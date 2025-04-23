@@ -76,8 +76,9 @@ def is_tube(x_len, y_len):
     returns true if it is tube, else it returns false
     based on width and length parameters
     """
-    return (max(x_len,y_len)/min(x_len,y_len, 1000) > 3 
-            and max(x_len,y_len)/min(x_len,y_len, 1000) < 8)
+    return  min(x_len,y_len) != 0 \
+            and (max(x_len,y_len)/min(x_len,y_len) > 3 
+            and max(x_len,y_len)/min(x_len,y_len) < 8)
 
 
 
