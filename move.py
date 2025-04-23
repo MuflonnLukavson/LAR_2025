@@ -223,7 +223,7 @@ def main():
     #     else:
     #         rot_new(g, max_rot)
 
-    res = is_all()
+    res = scan_for_ball()
     '''
     tubes = is_all()
     print(tubes)
