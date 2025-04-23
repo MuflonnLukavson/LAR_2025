@@ -166,12 +166,12 @@ def scan_for_ball():
         # cv2.waitKey(1)
         for segment in segs:
             print(segment)
-            if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
-                found, count = get_objects(turtle, segment.color)
+            if segment.color == "yellow":
+                found, count = get_objects(imp_objects, turtle, segment.color)
                 imp_objects.extend(found)
                 yellow += count
-            if segment.color == "blue" and not vyp.already_seen(imp_objects, segment):
-                found, count = get_objects(turtle, segment.color)
+            if segment.color == "blue":
+                found, count = get_objects(imp_objects, turtle, segment.color)
                 blue += count
                 imp_objects.extend(found)
                 ang_vel = -ang_vel
@@ -185,7 +185,7 @@ def scan_for_ball():
     print(imp_objects)
     return imp_objects
 
-def get_objects(turtle, color):
+def get_objects(imp_obj, turtle, color):
     turtle.wait_for_rgb_image()
     turtle.wait_for_point_cloud()
 
@@ -196,8 +196,8 @@ def get_objects(turtle, color):
     res = []
     cnt = 0
     for obj in objects:
-        if obj.color == color:
-            obj.trasform_pos_pc2ref(odo)
+        obj.trasform_pos_pc2ref(odo)
+        if obj.color == color  and not vyp.already_seen(imp_obj, obj):
             res.append(obj)
             cnt += 1
     return res, cnt
