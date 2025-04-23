@@ -20,10 +20,10 @@ def main():
 
     turtle.register_button_event_cb(sec.button_cb)
     turtle.register_bumper_event_cb(sec.bumper_cb)
-
+    turtle.reset_odometry()
+    
     while not turtle.is_shutting_down() and sec.button_pressed and cnt < 5:
         # get point cloud
-        turtle.reset_odometry()
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
