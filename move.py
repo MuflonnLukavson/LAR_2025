@@ -158,20 +158,23 @@ def scan_for_ball():
         odo = turtle.get_odometry()
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
+        pc = turtle.get_point_cloud()
+
         yellow = 0
         blue = 0
-        segs, mask = seg.segment_all(img)
+        segs, mask = seg.segment_all(img, pc)
         ang_vel = 0.55
         # cv2.imshow(WINDOW, mask)    
         # cv2.waitKey(1)
         for segment in segs:
             print(segment)
-            if segment.color == "yellow":
-                found, count = get_objects(imp_objects, turtle, segment.color)
+            segment.trasform_pos_pc2ref(odo)
+            if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
+                found, count = get_objects(turtle, segment.color)
                 imp_objects.extend(found)
                 yellow += count
-            if segment.color == "blue":
-                found, count = get_objects(imp_objects, turtle, segment.color)
+            if segment.color == "blue" and not vyp.already_seen(imp_objects, segment):
+                found, count = get_objects(turtle, segment.color)
                 blue += count
                 imp_objects.extend(found)
                 ang_vel = -ang_vel
@@ -185,7 +188,7 @@ def scan_for_ball():
     print(imp_objects)
     return imp_objects
 
-def get_objects(imp_obj, turtle, color):
+def get_objects(turtle, color):
     turtle.wait_for_rgb_image()
     turtle.wait_for_point_cloud()
 
@@ -196,8 +199,8 @@ def get_objects(imp_obj, turtle, color):
     res = []
     cnt = 0
     for obj in objects:
-        obj.trasform_pos_pc2ref(odo)
-        if obj.color == color  and not vyp.already_seen(imp_obj, obj):
+        if obj.color == color:
+            obj.trasform_pos_pc2ref(odo)
             res.append(obj)
             cnt += 1
     return res, cnt

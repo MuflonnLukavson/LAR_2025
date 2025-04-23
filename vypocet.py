@@ -15,10 +15,10 @@ def already_seen(curr_objects, new_obj): # takes array of objects and compares t
 
 def is_close(obj1, obj2): # says if 2 objects are close togehter in space
     dist = math.sqrt(math.pow(obj1.pc_pos[0] - obj2.pc_pos[0],2) + math.pow(obj1.pc_pos[2]-obj2.pc_pos[2],2))
-    # obj1_x, obj1_y = obj1.coords_2D
-    # obj2_x, obj2_y = obj2.coords_2D
-    # dist_2D = math.sqrt(math.pow(obj1_x - obj2_x, 2) + math.pow(obj1_y - obj2_y, 2))
-    return dist < 0.5 and dist > nuh_uh
+    obj1_x, obj1_y = obj1.coords_2D
+    obj2_x, obj2_y = obj2.coords_2D
+    dist_2D = math.sqrt(math.pow(obj1_x - obj2_x, 2) + math.pow(obj1_y - obj2_y, 2))
+    return dist_2D < 0.5 and dist_2D > nuh_uh
 
 #array je pc_pos[x,y,z] kde x je vlevo vpravo, z je dopredu dozadu
 def goal_mid(post1,post2): # najdi střed branky
