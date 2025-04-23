@@ -174,7 +174,7 @@ def scan_for_ball():
                 blue += count
                 imp_objects.extend(found)
                 ang_vel = -ang_vel
-        print("--------------------")
+        print("--------------------", imp_objects)
         if blue == 2 and yellow == 1:
             all = True
         else:
