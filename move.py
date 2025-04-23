@@ -155,6 +155,7 @@ def scan_for_ball():
     imp_objects = []
     # cv2.namedWindow(WINDOW)
     while not all:
+        odo = turtle.get_odometry()
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
         yellow = 0
@@ -165,6 +166,7 @@ def scan_for_ball():
         # cv2.waitKey(1)
         for segment in segs:
             print(segment)
+            segment.trasform_pos_pc2ref(odo)
             if segment.color == "yellow" and vyp.already_seen(imp_objects, segment):
                 found, count = get_objects(turtle, segment.color)
                 imp_objects.extend(found)
