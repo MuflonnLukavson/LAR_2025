@@ -11,6 +11,7 @@ def already_seen(curr_objects, new_obj): # takes array of objects and compares t
         if object.color == new_obj.color:
             if is_close(object, new_obj):
                 ret = True
+                break
     return ret
 
 def is_close(obj1, obj2): # says if 2 objects are close togehter in space
