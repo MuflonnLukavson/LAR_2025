@@ -24,7 +24,7 @@ class Object():
     def trasform_pos_pc2ref(self):
         #TODO
         theta = 0
-        t1, t2 = 0
+        t1, t2 = 0, 0
         c, s = np.cos(theta), np.sin(theta)
         R_matrix = np.array([c , -s],[s, c])
         H_matrix = np.array([c, -s, t1],[s, c, t2],[0,0,1])
