@@ -166,11 +166,11 @@ def scan_for_ball():
         # cv2.waitKey(1)
         for segment in segs:
             print(segment)
-            if segment.color == "yellow":
+            if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
                 found, count = get_objects(turtle, segment.color)
                 imp_objects.extend(found)
                 yellow += count
-            if segment.color == "blue":
+            if segment.color == "blue" and not vyp.already_seen(imp_objects, segment):
                 found, count = get_objects(turtle, segment.color)
                 blue += count
                 imp_objects.extend(found)
