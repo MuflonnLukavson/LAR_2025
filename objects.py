@@ -11,11 +11,11 @@ class Object():
         self.color = color  
         # position of center of the object in the picture
         self.im_center_pos = [im_center_x, im_center_y] 
+        self.coords_2D = None
 
         if len(pc) > 0:
             # position of the center in point cloud
             self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc) 
-            self.coords_2D = None
         else:
             self.pc_pos = None
 
