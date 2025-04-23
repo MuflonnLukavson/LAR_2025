@@ -3,7 +3,7 @@ import sys
 import math as m
 import tube_seg as seg
 import help_func as help
-import vypocet
+# import vypocet
 import cv2
 turtle = Turtlebot(pc=True, rgb = True)
 rate = Rate(100)
@@ -178,7 +178,7 @@ def scan_for_ball():
         if blue == 2 and yellow == 1:
             all = True
         else:
-            turtle.cmd_velocity(ang_vel)
+            turtle.cmd_velocity(angular= ang_vel)
         rate.sleep()
     
     print(imp_objects)
@@ -240,4 +240,4 @@ def main():
 
 
 if __name__ == '__main__':
-    is_all()
+    scan_for_ball()

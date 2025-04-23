@@ -98,7 +98,7 @@ def segment_all(img, point_c = []):
     # k = cv2.waitKey(5000) & 0xFF
     
     # cv2.destroyAllWindows()
-    return objects
+    return objects, mask
 
 ##  ISSUES
 # aligning tubes - 33! ,34, 35, 48, 50, 52 - not a big problem
