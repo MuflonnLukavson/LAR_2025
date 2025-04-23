@@ -33,8 +33,9 @@ def main():
 
 
         print(tubes)
-        input("--------------------")
         
+        input("--------------------")
+
         cnt += 1
         rate.sleep()
 
