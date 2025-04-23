@@ -216,13 +216,14 @@ def main():
 
     go = True
 
-    while go:
-        g = float(input("---: "))
-        if g == 0:
-            go = False
-        else:
-            rot_new(g, max_rot)
+    # while go:
+    #     g = float(input("---: "))
+    #     if g == 0:
+    #         go = False
+    #     else:
+    #         rot_new(g, max_rot)
 
+    res = is_all()
     '''
     tubes = is_all()
     print(tubes)
@@ -244,4 +245,4 @@ def main():
 
 
 if __name__ == '__main__':
-    scan_for_ball()
+    main()
