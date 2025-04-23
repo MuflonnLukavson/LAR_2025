@@ -30,7 +30,7 @@ def main():
 
         # segmenting everything
         tubes = seg.segment_all(img, pc)
-        odo = turtle.get_odomotery()
+        odo = turtle.get_odometry()
 
         print(tubes)
         
