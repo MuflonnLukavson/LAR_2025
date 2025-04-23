@@ -30,10 +30,12 @@ def main():
 
         # segmenting everything
         tubes = seg.segment_all(img, pc)
-
+        odo = turtle.get_odomotery()
 
         print(tubes)
         
+        if len(tubes) > 0:
+            tubes[0].trasform_pos_pc2ref(odo)
         input("--------------------")
 
         cnt += 1

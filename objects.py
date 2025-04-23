@@ -1,6 +1,7 @@
 # Working with objects and their purpouse
 import math as m
 import numpy as np
+import copy as cp
 ball = 1
 goal = 2
 barrier = 3
@@ -14,7 +15,6 @@ class Object():
         if len(pc) > 0:
             # position of the center in point cloud
             self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc) 
-            self.coords_2D = self.trasform_pos_pc2ref()
         else:
             self.pc_pos = None
 
@@ -33,7 +33,7 @@ class Object():
         if self.im_center_pos:
             coords = H_matrix.dot(self.im_center_pos)
         print(coords) 
-        return 
+        self.coords_2D = cp.deepcopy(coords)
 
     
     def map_to_pc(self, im_x, im_y, pc):
