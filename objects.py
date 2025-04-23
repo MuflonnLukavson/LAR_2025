@@ -26,7 +26,7 @@ class Object():
         x,y = self.pc_pos[0], self.pc_pos[2]
         #TODO
         theta = odo[2]
-        t1, t2 = odo[0], odo[1]
+        t1, t2 = odo[1], odo[0]
         c, s = np.cos(theta), np.sin(theta)
         print(c,s)
         R_matrix = np.array(((c , -s),(s, c)))
