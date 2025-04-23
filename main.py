@@ -11,26 +11,31 @@ def main():
     rate = Rate(100)
 
     sec = help_func.Security()
-
     cnt = 0
+
+    # waiting for cp and rgb init
+    turtle.wait_for_point_cloud()
+    turtle.wait_for_rgb_image()
     print("starting test")
+
     turtle.register_button_event_cb(sec.button_cb)
     turtle.register_bumper_event_cb(sec.bumper_cb)
 
-    while not turtle.is_shutting_down() and cnt < 5:
+    while not turtle.is_shutting_down() and sec.button_pressed and cnt < 5:
         # get point cloud
-        turtle.wait_for_point_cloud()
-        turtle.wait_for_rgb_image()
 
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
 
-        cnt += 1
-        # segments all tubes
+        # segmenting everything
         tubes = seg.segment_all(img, pc)
+
+
         print(tubes)
         input("--------------------")
+        
+        cnt += 1
         rate.sleep()
 
 

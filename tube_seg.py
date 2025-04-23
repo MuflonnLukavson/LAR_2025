@@ -7,14 +7,19 @@ import objects as obj
 import yellow_reading as bRead
 
 def color_tube_segmentation(hsv, color, avg_bright, point_c):
-    "segmenting tubes based on colour"
-    # Masking image
+    """
+    Fucntion which segments tube according to selected color
+    Firstly it is filtrated by color into mask, then small sized
+    components are filtered out. Lastly the propotions are checked.
+
+    Returns array of objects with defined atributes (see objects.py)
+    """
+    # Masking image 
     mask = im.masking_img(hsv,color, avg_bright)
 
     # Get stats of segmented components after color masking
     out = cv2.connectedComponentsWithStats(mask)
 
-    # rem_out = []
     # Removing components smaller than defined area or ones that are too high
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
@@ -31,16 +36,15 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
 
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
-    # Find the convex hull object for each contour
     hull_list = []
     object_list = []
+    # Find the convex hull object for each contour
     for i in range(len(contours)):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
         rect = cv2.minAreaRect(contours[i])
         rect_length, rect_width = rect[1]
         if not (im.is_tube(rect_length, rect_width)):
-            # print("proportions check: ",rect_length, rect_width)
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
             x,y  = out[3][-i-1]
@@ -60,7 +64,11 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
 
 def segment_all(img, point_c = []):
     """
-    segmetns all tubes, returns array of objects (see objects.py)
+    Funtion segments all possible colors and ball separatly. 
+    On each color is called function for tube segmentation accroding to color.
+    Afterwards the ball is segmented
+    
+    Returns array of objects with defined atributes (see objects.py)
     """
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     bright = im.get_overall_bright(hsv)

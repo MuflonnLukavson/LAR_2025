@@ -4,20 +4,43 @@ import numpy as np
 
 # color table [lower,higher] boundary for bright and dark conditions
 color_table_bright = {
-    "green" : [np.array([35, 80, 80]), np.array([85, 255, 255])],
-    "blue" : [np.array([78, 130, 80]), np.array([138, 255, 255])],
-    "red" : [np.array([0, 100, 100]), np.array([8, 255, 255]), np.array([172,100,100]), np.array([179,255,255])],
+    "green" : [
+        np.array([35, 80, 80]),
+        np.array([85, 255, 255])
+        ],
+    "blue" : [
+        np.array([78, 130, 80]),
+        np.array([138, 255, 255])],
+    "red" : [
+        np.array([0, 100, 100]), 
+        np.array([8, 255, 255]), 
+        np.array([172,100,100]), 
+        np.array([179,255,255])
+        ],
 }
 
 color_table_dark = {
-    "green" : [np.array([35, 50, 50]), np.array([85, 255, 255])],
-    "blue" : [np.array([78, 130, 50]), np.array([138, 255, 255])],
-    "red" : [np.array([0, 80, 65]), np.array([8, 255, 255]), np.array([172,80,65]), np.array([179,255,255])],
+    "green" : [
+        np.array([35, 50, 50]), 
+        np.array([85, 255, 255])
+        ],
+    "blue" : [
+        np.array([78, 130, 50]), 
+        np.array([138, 255, 255])
+        ],
+    "red" : [
+        np.array([0, 80, 65]), 
+        np.array([8, 255, 255]), 
+        np.array([172,80,65]), 
+        np.array([179,255,255])
+        ],
 }
+
 
 def get_overall_bright(hsv):
     """
-    gets overall brigthnes of image from HSV color space
+    function returns overall brigthnes of image
+    from HSV color space
     """
     # add up all the pixel values in V channel
     value = np.sum(hsv[:,:, 2])
@@ -40,7 +63,8 @@ def gamma_correction(img, gamma):
 
 def clear_mask(mask, r, c, x_len, y_len):
     """
-    clearing mask; should be called if the item should not be segmented
+    clearing mask
+    should only be called if the item should not be segmented
     """
     for i in range(y_len):
         for j in range(x_len):
@@ -48,18 +72,28 @@ def clear_mask(mask, r, c, x_len, y_len):
 
 def is_tube(x_len, y_len):
     """
-    true - item is not a tube
+    bool value
+    returns true if it is tube, else it returns false
+    based on width and length parameters
     """
-    return max(x_len,y_len)/min(x_len,y_len) > 3 and max(x_len,y_len)/min(x_len,y_len) < 8
+    return (max(x_len,y_len)/min(x_len,y_len) > 3 
+            and max(x_len,y_len)/min(x_len,y_len) < 8)
 
 
 
 def check_prop_circle(x_len, y_len):
-    "true - item is not a circle/ball"
+    """
+    checks if the item is circle shaped based on width and length
+    return true if it is NOT
+    """
     return max(x_len,y_len)/min(x_len,y_len) > 2
 
 def check_rect_circ(rect_wid, rect_len, circ_r):
-    "its more round object"
+    """
+    checks if the area of minimal enclosing circle
+    is smaller than area of minimal enclosing rectangle
+    returns true if it is
+    """
     return 1.15 * rect_len*rect_wid > np.pi * (circ_r**2)
 
 def masking_img(img, color, bright):

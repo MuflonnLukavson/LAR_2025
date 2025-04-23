@@ -7,7 +7,7 @@ button_num = ['Button 1', 'Button 2', 'Button 3']
 
 class Security():
     def __init__(self):
-        self.button_pressed = False
+        self.button_pressed = True # TODO change to FALSE
         self.bumper = False
 
 
@@ -21,6 +21,10 @@ class Security():
 
         # Print the event
         print('DEBUG: {} bumper {}'.format(bumper, state))
+        if bumper == 1:
+            self.bumper = True
+        else:
+            self.bumper = False 
 
     def button_cb(self, msg):
         """Button callback"""
