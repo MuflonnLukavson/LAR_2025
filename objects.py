@@ -15,6 +15,7 @@ class Object():
         if len(pc) > 0:
             # position of the center in point cloud
             self.pc_pos = self.map_to_pc(im_center_x, im_center_y, pc) 
+            self.coords_2D = None
         else:
             self.pc_pos = None
 
