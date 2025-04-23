@@ -3,7 +3,7 @@ import sys
 import math as m
 import tube_seg as seg
 import help_func as help
-# import vypocet
+import vypocet as vyp
 import cv2
 turtle = Turtlebot(pc=True, rgb = True)
 rate = Rate(100)
@@ -165,11 +165,11 @@ def scan_for_ball():
         # cv2.waitKey(1)
         for segment in segs:
             print(segment.color)
-            if segment.color == "yellow":
+            if segment.color == "yellow" and vyp.already_seen(imp_objects. segment):
                 found, count = get_objects(turtle, segment.color)
                 imp_objects.extend(found)
                 yellow += count
-            if segment.color == "blue":
+            if segment.color == "blue" and vyp.already_seen(imp_objects. segment):
                 found, count = get_objects(turtle, segment.color)
                 blue += count
                 imp_objects.extend(found)
