@@ -154,16 +154,16 @@ def scan_for_ball():
     all = False
     imp_objects = []
     # cv2.namedWindow(WINDOW)
+    ang_vel = 0.55
+    yellow = 0
+    blue = 0
     while not all:
-        odo = turtle.get_odometry()
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
         pc = turtle.get_point_cloud()
 
-        yellow = 0
-        blue = 0
+        odo = turtle.get_odometry()
         segs, mask = seg.segment_all(img, pc)
-        ang_vel = 0.55
         # cv2.imshow(WINDOW, mask)    
         # cv2.waitKey(1)
         for segment in segs:
