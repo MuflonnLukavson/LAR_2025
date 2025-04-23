@@ -15,6 +15,7 @@ def already_seen(curr_objects, new_obj): # takes array of objects and compares t
 
 def is_close(obj1, obj2): # says if 2 objects are close togehter in space
     dist = math.sqrt(math.pow(obj1.pc_pos[0] - obj2.pc_pos[0],2) + math.pow(obj1.pc_pos[2]-obj2.pc_pos[2],2))
+    
     return dist < 0.5 and dist > nuh_uh
 
 #array je pc_pos[x,y,z] kde x je vlevo vpravo, z je dopredu dozadu
