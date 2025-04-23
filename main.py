@@ -23,7 +23,7 @@ def main():
 
     while not turtle.is_shutting_down() and sec.button_pressed and cnt < 5:
         # get point cloud
-
+        turtle.reset_odometry()
         pc = turtle.get_point_cloud()
         img = turtle.get_rgb_image()
 
