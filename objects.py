@@ -23,18 +23,22 @@ class Object():
         return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}, 2D: {self.coords_2D}\n"
 
     def trasform_pos_pc2ref(self, odo):
+        x,y = self.pc_pos[0], self.pc_pos[2]
         #TODO
-        theta = m.pi/4
-        t1, t2 = 0, 0
+        theta = odo[2]
+        t1, t2 = odo[0], odo[1]
         c, s = np.cos(theta), np.sin(theta)
         print(c,s)
         R_matrix = np.array(((c , -s),(s, c)))
         H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
         print(R_matrix, H_matrix, sep = "\n")
-        if self.im_center_pos:
+        if self.pc_pos:
             print(H_matrix, self.pc_pos)
             coords = H_matrix.dot(self.pc_pos)
-        print(coords) 
+            print([x - t1, y - t2])
+            coords_2 = np.transpose(R_matrix).dot(([x - t1, y - t2]))
+
+        print(coords, coords_2) 
         self.coords_2D = cp.deepcopy(coords)
 
     
