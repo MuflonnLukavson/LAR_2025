@@ -36,7 +36,7 @@ class Object():
             coords_2 = np.transpose(R_matrix).dot(([x - t1, y - t2]))
 
         print(coords_2) 
-        self.coords_2D = cp.deepcopy(coords)
+        self.coords_2D = cp.deepcopy(coords_2)
 
     def has_coords_2D(self):
         return self.coords_2D != None
