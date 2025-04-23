@@ -70,15 +70,14 @@ def clear_mask(mask, r, c, x_len, y_len):
         for j in range(x_len):
             mask[r + i][c + j] = 0
 
-def is_tube(x_len, y_len):
+def is_tube(hg, wd):
     """
     bool value
     returns true if it is tube, else it returns false
     based on width and length parameters
     """
-    return  min(x_len,y_len) != 0 \
-            and (max(x_len,y_len)/min(x_len,y_len) > 3 
-            and max(x_len,y_len)/min(x_len,y_len) < 8)
+    return  min(hg, wd) != 0 \
+            and (hg/wd > 3 and hg/wd < 8)
 
 
 

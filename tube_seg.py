@@ -43,8 +43,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
         rect = cv2.boundingRect(contours[i])
-        rect_length, rect_width = rect[2], rect[3]
-        print(rect)
+        rect_length, rect_width = rect[3], rect[2]
         if not (im.is_tube(rect_length, rect_width)):
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
@@ -120,4 +119,4 @@ def segment_all(img, point_c = []):
 if __name__ == '__main__':
     img = cv2.imread("ball_images\\40.png")
     
-    segment_all(img, point_c= None)
+    segment_all(img)
