@@ -8,10 +8,9 @@ nuh_uh = 3 # believable distance
 def already_seen(curr_objects, new_obj): # takes array of objects and compares their position to a new object to evaluate if it is actually a new one
     ret = False
     for object in curr_objects:
-        if object.color == new_obj.color:
-            if is_close(object, new_obj):
-                ret = True
-                break
+        if object.color == new_obj.color and is_close(object, new_obj):
+            ret = True
+            break
     return ret
 
 def is_close(obj1, obj2): # says if 2 objects are close togehter in space
