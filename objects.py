@@ -35,7 +35,7 @@ class Object():
         print("R, M:",R_matrix, H_matrix, " ", sep = "\n")
         if len(self.pc_pos) > 0:
             print(H_matrix, self.pc_pos)
-            coords = H_inv.dot(self.pc_pos)
+            coords = H_matrix.dot(self.pc_pos)
             print([x - t1, y - t2])
             coords_2 = np.transpose(R_matrix).dot(([x - t1, y - t2]))
 
