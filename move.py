@@ -320,7 +320,7 @@ def main():
     rot_new(ball_ang, max_rot)
 
     img, pc = get_img_pc(turtle)
-    view = seg.segment_all(img, pc)
+    view, mask = seg.segment_all(img, pc)
     print(view)
     go(0.75 , 2, 0.05)
 
