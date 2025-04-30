@@ -23,7 +23,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     # Removing components smaller than defined area or ones that are too high
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
-        if ((area < 800) or (r + y_len < 100)):
+        if ((area < 500) or (r + y_len < 100)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
@@ -109,6 +109,6 @@ def segment_all(img, point_c = []):
 """
 
 if __name__ == '__main__':
-    img = cv2.imread("ball_images\\40.png")
+    img = cv2.imread("obr.png")
     
     segment_all(img)

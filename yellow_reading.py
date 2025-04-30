@@ -54,8 +54,8 @@ def ball_segmentation(hsv, avg_bright, point_c):
     for i in range(len(contours)):
         c, r, x_len, y_len, area = out[2][-i-1]
         hull = cv2.convexHull(contours[i])
-        rect = cv2.minAreaRect(contours[i])
-        rect_width, rect_length = rect[1]
+        rect = cv2.boundingRect(contours[i])
+        rect_length, rect_width = rect[3], rect[2]
         circ = cv2.minEnclosingCircle(contours[i])
         circ_r = circ[1]
         if im.check_rect_circ(rect_width, rect_length, circ_r):
@@ -66,7 +66,10 @@ def ball_segmentation(hsv, avg_bright, point_c):
             im.clear_mask(mask, r, c, x_len, y_len)
             pass
 
+    cv2.imshow('img',img)
+    cv2.imshow('mask2',mask)
 
+    k = cv2.waitKey(5000) & 0xFF
     # Filtering 
     # Drawing countours
     # cv2.drawContours(img, contours, -1, (0,255,0), 3)
@@ -90,6 +93,8 @@ def ball_segmentation(hsv, avg_bright, point_c):
 # If there is not enough light in the room, threshhold is fucked. --  lower_yellow = np.array([18, 50, 50]) this works for lower light level -58, 45, 46, 49, 
 
 if __name__ == '__main__':
-    img = cv2.imread("ball_images\\40.png")
+    img = cv2.imread("obr.png")
     avg_bright = im.get_overall_bright(img)
-    ball_segmentation(img)
+    hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    print(avg_bright)
+    ball_segmentation(hsv, avg_bright, point_c=[])
