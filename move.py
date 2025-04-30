@@ -260,6 +260,9 @@ def ball_center():
             if segment.color == "yellow":
                 ang_to_ball = vyp.ang_to_ball(segment.pc_pos, odo)
                 found_angle = True
+        if not found_angle:
+            turtle.cmd_velocity(angular=rot_speed)
+        rate.sleep()
     return ang_to_ball
 
 def get_img_pc(turtle):
