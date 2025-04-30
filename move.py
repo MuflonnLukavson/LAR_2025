@@ -5,9 +5,9 @@ import tube_seg as seg
 import help_func as help
 import vypocet as vyp
 import cv2
-turtle = Turtlebot(pc=True, rgb = True)
+# turtle = Turtlebot(pc=True, rgb = True)
+# rate = Rate(100)
 rate = Rate(100)
-
 WINDOW = "test"
 MAX_ROT = 1.57
 
@@ -152,13 +152,14 @@ def is_all():
     tubes, mask = seg.segment_all(img, pc)
     return tubes
 
-def rot_30_deg():
+def rot_30_deg(turtle):
     t = get_time()
     while (get_time() - t) < 1.75:
         turtle.cmd_velocity(angular=0.55)
         rate.sleep()
 
-def scan_for_ball():
+def scan_for_ball(turtle):
+
     all = False
     imp_objects = []
     # cv2.namedWindow(WINDOW)
@@ -190,7 +191,7 @@ def scan_for_ball():
         if blue == 2 and yellow == 1:
             all = True
         else:
-            rot_30_deg()
+            rot_30_deg(turtle)
     
     print(imp_objects)
     return imp_objects
@@ -213,6 +214,8 @@ def get_objects(turtle, color):
     return res, cnt
 
 def main():
+    turtle = Turtlebot(pc=True, rgb = True)
+    rate = Rate(100)
     turtle.reset_odometry()
 
     turtle.wait_for_odometry()
@@ -230,7 +233,7 @@ def main():
     #     else:
     #         rot_new(g, max_rot)
 
-    res = scan_for_ball()
+    res = scan_for_ball(turtle)
     '''
     tubes = is_all()
     print(tubes)

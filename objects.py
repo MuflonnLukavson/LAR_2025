@@ -23,6 +23,7 @@ class Object():
         return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}, 2D: {self.coords_2D}\n"
 
     def trasform_pos_pc2ref(self, odo):
+        print("odo:", odo)
         x,y = self.pc_pos[0], self.pc_pos[2]
         #TODO
         theta = odo[2]
@@ -33,7 +34,7 @@ class Object():
         H_inv = np.linalg.inv(H_matrix)
         if len(self.pc_pos) > 0:
             coords = H_matrix.dot(self.pc_pos)
-            coords_2 = np.transpose(R_matrix).dot(([x - t1, y - t2]))
+            coords_2 = (R_matrix).dot(([x - t1, y - t2]))
 
         print(coords_2) 
         self.coords_2D = cp.deepcopy(coords_2)
