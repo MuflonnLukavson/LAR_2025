@@ -304,7 +304,7 @@ def main():
     print("uhel: ", ball_ang*(180/m.pi))
     input()
     rot_new(ball_ang, max_rot)
-    go(1, 1, 0.02)
+    go(0.75 , 2, 0.05)
 
 if __name__ == '__main__':
     main()
