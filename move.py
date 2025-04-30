@@ -270,7 +270,6 @@ def main():
     max_rot = 1.57
     max_go = 0.69
 
-    go = True
 
     imp_obj = scan_for_ball(turtle)
     print(imp_obj)
