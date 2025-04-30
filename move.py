@@ -5,152 +5,12 @@ import tube_seg as seg
 import help_func as help
 import vypocet as vyp
 import cv2
-# turtle = Turtlebot(pc=True, rgb = True)
-# rate = Rate(100)
-# rate = Rate(100)
+
+turtle = Turtlebot(pc=True, rgb = True)
+rate = Rate(100)
+
 WINDOW = "test"
-MAX_ROT = 1.57
 
-
-def go(dis, max_speed):
-    P_go = 0.5
-    acc = 0.005
-    min_speed = 0.1
-    poss_err = 0.05
-    turtle.reset_odometry()
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    odo = turtle.get_odometry()
-    err = dis - odo[0]
-    prev_speed = 0
-    while err > poss_err:
-        go_speed = min_speed + abs(err * P_go)
-        if go_speed > max_speed:
-            go_speed = max_speed
-        if (go_speed - prev_speed) > acc:
-            go_speed = prev_speed + acc
-        prev_speed = go_speed
-        turtle.cmd_velocity(linear=go_speed)
-        odo = turtle.get_odometry()
-        err = dis - odo[0]
-        rate.sleep()
-    odo = turtle.get_odometry()
-    turtle.wait_for_odometry()
-    print(odo[2])
-    if abs(odo[2]) > 0.1:
-        rot(-odo[2], 1.57)
-
-def go_new(x, y, max_speed):
-    P_go = 0.5
-    acc = 0.005
-    min_speed = 0.1
-    poss_err = 0.05
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    odo = turtle.get_odometry()
-    err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
-    prev_speed = 0
-    while err > poss_err:
-        go_speed = min_speed + abs(err * P_go)
-        if go_speed > max_speed:
-            go_speed = max_speed
-        if (go_speed - prev_speed) > acc:
-            go_speed = prev_speed + acc
-        prev_speed = go_speed
-        turtle.cmd_velocity(linear=go_speed)
-        odo = turtle.get_odometry()
-        err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
-        rate.sleep()
-
-def rot(rot, max_rot):
-    turtle.reset_odometry()
-    P_rot = 1.5
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    minus = False
-    odo = turtle.get_odometry()
-    if rot < 0:
-        minus=True
-        rot = abs(rot)
-    err = rot - abs(odo[2])
-    while err > 0.1:
-        rot_speed = 0.157 + abs(err * P_rot)
-        if rot_speed > max_rot:
-            rot_speed = max_rot
-        
-        if minus:
-            rot_speed = -rot_speed
-            turtle.cmd_velocity(angular=rot_speed)
-        else:
-            turtle.cmd_velocity(angular=rot_speed)
-            
-        turtle.cmd_velocity(angular=rot_speed)
-        odo = turtle.get_odometry()
-        err = rot - abs(odo[2])
-        rate.sleep()
-
-def rot_new(rot, max_rot):
-    P_rot = 1.5
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    minus = False
-    odo = turtle.get_odometry()
-    want = odo[2] + rot
-    if rot < 0:
-        minus=True
-    if want > m.pi:
-        want = want - (2 * m.pi)
-    elif want < -m.pi:
-        want = want + (2 * m.pi)
-        
-    err = want - odo[2]
-    while err > 0.01 or err < -0.01:
-        rot_speed = 0.157 + abs(err * P_rot)
-        if rot_speed > max_rot:
-            rot_speed = max_rot
-        
-        if minus:
-            rot_speed = -rot_speed
-            turtle.cmd_velocity(angular=rot_speed)
-        else:
-            turtle.cmd_velocity(angular=rot_speed)
-            
-        turtle.cmd_velocity(angular=rot_speed)
-        odo = turtle.get_odometry()
-        err = want - odo[2]
-        rate.sleep()
-
-def is_all():
-    all = False
-    cv2.namedWindow(WINDOW)
-    while not all:
-        turtle.wait_for_rgb_image()
-        img = turtle.get_rgb_image()
-        yellow = 0
-        blue = 0
-        segs, mask = seg.segment_all(img)
-        cv2.imshow(WINDOW, mask)    
-        cv2.waitKey(1)
-        for segment in segs:
-            print(segment.color)
-            if segment.color == "yellow":
-                yellow += 1
-            if segment.color == "blue":
-                blue += 1
-        print("--------------------")
-        if blue == 2 and yellow == 1:
-            all = True
-        else:
-            turtle.cmd_velocity(angular=0.55)
-        rate.sleep()
-    
-    turtle.wait_for_rgb_image()
-    turtle.wait_for_point_cloud()
-
-    pc = turtle.get_point_cloud()
-    img = turtle.get_rgb_image()
-    tubes, mask = seg.segment_all(img, pc)
-    return tubes
 
 def rot_30_deg(turtle):
     t = get_time()
@@ -214,9 +74,192 @@ def get_objects(turtle, color):
             cnt += 1
     return res, cnt
 
+
+def go(dis, max_speed, accel):
+    P_go = 0.5
+    min_speed = 0.1
+    poss_err = 0.05
+    turtle.reset_odometry()
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    err = dis - odo[0]
+    prev_speed = 0
+    while err > poss_err:
+        go_speed = min_speed + abs(err * P_go)
+        if go_speed > max_speed:
+            go_speed = max_speed
+        if (go_speed - prev_speed) > accel:
+            go_speed = prev_speed + accel
+        prev_speed = go_speed
+        turtle.cmd_velocity(linear=go_speed)
+        odo = turtle.get_odometry()
+        err = dis - odo[0]
+        rate.sleep()
+    odo = turtle.get_odometry()
+    turtle.wait_for_odometry()
+
+def go_new(x, y, max_speed): 
+    P_go = 0.5
+    accel = 0.005
+    min_speed = 0.1
+    poss_err = 0.09
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
+    prev_speed = 0
+    cnt = 0
+    while err > poss_err:
+        go_speed = min_speed + abs(err * P_go)
+        if go_speed > max_speed:
+            go_speed = max_speed
+        if (go_speed - prev_speed) > accel:
+            go_speed = prev_speed + accel
+        prev_speed = go_speed
+        turtle.cmd_velocity(linear=go_speed)
+        odo = turtle.get_odometry()
+        old_err = err
+        err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
+        if old_err < err:
+            cnt += 1
+
+        if cnt > 5:
+            print("Přejel jsem to")
+            return 1
+        #print(cnt)
+        rate.sleep()
+    return 0
+
+def rot(rot, max_rot):
+    turtle.reset_odometry()
+    P_rot = 1.5
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    minus = False
+    odo = turtle.get_odometry()
+    if rot < 0:
+        minus=True
+        rot = abs(rot)
+    err = rot - abs(odo[2])
+    while err > 0.1:
+        rot_speed = 0.157 + abs(err * P_rot)
+        if rot_speed > max_rot:
+            rot_speed = max_rot
+        
+        if minus:
+            rot_speed = -rot_speed
+            turtle.cmd_velocity(angular=rot_speed)
+        else:
+            turtle.cmd_velocity(angular=rot_speed)
+            
+        turtle.cmd_velocity(angular=rot_speed)
+        odo = turtle.get_odometry()
+        err = rot - abs(odo[2])
+        rate.sleep()
+
+def rot_new(rot, max_rot):
+    P_rot = 1.5
+    min_rot = 0.2
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    minus = False
+    odo = turtle.get_odometry()
+    want = odo[2] + rot
+    if rot < 0:
+        minus=True
+    if want > m.pi:
+        want = want - (2 * m.pi)
+    elif want < -m.pi:
+        want = want + (2 * m.pi)
+        
+    err = want - odo[2]
+    while err > 0.01 or err < -0.01:
+        rot_speed = min_rot + abs(err * P_rot)
+        if rot_speed > max_rot:
+            rot_speed = max_rot
+        
+        if minus:
+            rot_speed = -rot_speed
+            turtle.cmd_velocity(angular=rot_speed)
+        else:
+            turtle.cmd_velocity(angular=rot_speed)
+            
+        turtle.cmd_velocity(angular=rot_speed)
+        odo = turtle.get_odometry()
+        err = want - odo[2]
+        rate.sleep()
+
+def is_all():
+    all = False
+    cv2.namedWindow(WINDOW)
+    while not all:
+        turtle.wait_for_rgb_image()
+        img = turtle.get_rgb_image()
+        yellow = 0
+        blue = 0
+        segs, mask = seg.segment_all(img)
+        cv2.imshow(WINDOW, mask)    
+        cv2.waitKey(1)
+        for segment in segs:
+            print(segment.color)
+            if segment.color == "yellow":
+                yellow += 1
+            if segment.color == "blue":
+                blue += 1
+        print("--------------------")
+        if blue == 2 and yellow == 1:
+            all = True
+        else:
+            turtle.cmd_velocity(angular=0.55)
+        rate.sleep()
+    
+    turtle.wait_for_rgb_image()
+    turtle.wait_for_point_cloud()
+
+    pc = turtle.get_point_cloud()
+    img = turtle.get_rgb_image()
+    tubes, mask = seg.segment_all(img, pc)
+    return tubes
+
+def ball_center():
+    ball = False
+    rot_speed = 0.7
+    while not ball:
+        turtle.wait_for_rgb_image()
+        img = turtle.get_rgb_image()
+        segs, mask = seg.segment_all(img)
+        for segment in segs:
+            print(segment.color)
+            
+            if segment.color == "yellow":
+                ball = True
+                print("!!!!ted!!!!!")
+                rot_speed = 0
+        turtle.cmd_velocity(angular=rot_speed)
+        print("------------")
+        rate.sleep()
+
+    turtle.wait_for_rgb_image()
+    turtle.wait_for_point_cloud()
+
+    pc = turtle.get_point_cloud()
+    img = turtle.get_rgb_image()
+    segs, mask = seg.segment_all(img, pc)
+
+    print(segs)
+    input()
+
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    ang_to_ball = 0
+    for segment in segs:
+        if segment.color == "yellow":
+            ang_to_ball = vyp.ang_to_ball(segment.pc_pos, odo)
+    return ang_to_ball
+
 def main():
-    turtle = Turtlebot(pc=True, rgb = True)
-    rate = Rate(100)
     turtle.reset_odometry()
 
     turtle.wait_for_odometry()
@@ -225,18 +268,7 @@ def main():
     max_rot = 1.57
     max_go = 0.69
 
-    go = True
-
-    # while go:
-    #     g = float(input("---: "))
-    #     if g == 0:
-    #         go = False
-    #     else:
-    #         rot_new(g, max_rot)
-
-    res = scan_for_ball(turtle)
-    '''
-    tubes = is_all()
+    tubes = get_objects(turtle)
     print(tubes)
     for tube in tubes:
         if tube.color == "yellow":
@@ -247,12 +279,28 @@ def main():
             else:
                 tube2 = tube
     
-    kick_off = vypocet.kick_pos(ball.pc_pos,tube1.pc_pos,tube2.pc_pos)
-    distance, angle, fin_ang = vypocet.dist_angle([0,0], ball.pc_pos, kick_off)
-    print(distance)
-    rot(angle, max_rot)
-    go(distance, max_go)
-    rot(fin_ang, max_rot)'''
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    
+    kick_off = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
+    distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
+    print("uhel: ", angle*(180/m.pi))
+    print("------")
+    print("dist: ", distance)
+
+    ball_ang = ball_center()
+    print("uhel: ", (ball_ang+angle)*(180/m.pi))
+    input()
+    rot_new(ball_ang + angle, max_rot)
+
+    go(distance, max_go, 0.005)
+
+    ball_ang = ball_center()
+    print("uhel: ", ball_ang*(180/m.pi))
+    input()
+    rot_new(ball_ang, max_rot)
+    go(1, 1, 0.02)
 
 
 if __name__ == '__main__':
