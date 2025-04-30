@@ -152,6 +152,12 @@ def is_all():
     tubes, mask = seg.segment_all(img, pc)
     return tubes
 
+def rot_30_deg():
+    t = get_time()
+    while (get_time() - t) < 1.75:
+        turtle.cmd_velocity(angular=0.55)
+        rate.sleep()
+
 def scan_for_ball():
     all = False
     imp_objects = []
@@ -184,8 +190,7 @@ def scan_for_ball():
         if blue == 2 and yellow == 1:
             all = True
         else:
-            rot_new(m.pi/6,MAX_ROT)
-            
+            rot_30_deg()
     
     print(imp_objects)
     return imp_objects
