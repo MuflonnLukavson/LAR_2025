@@ -7,7 +7,7 @@ import vypocet as vyp
 import cv2
 # turtle = Turtlebot(pc=True, rgb = True)
 # rate = Rate(100)
-rate = Rate(100)
+# rate = Rate(100)
 WINDOW = "test"
 MAX_ROT = 1.57
 
@@ -154,6 +154,7 @@ def is_all():
 
 def rot_30_deg(turtle):
     t = get_time()
+    rate = Rate(100)
     while (get_time() - t) < 1.75:
         turtle.cmd_velocity(angular=0.55)
         rate.sleep()
