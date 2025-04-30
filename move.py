@@ -304,6 +304,9 @@ def main():
     print("uhel: ", ball_ang*(180/m.pi))
     input()
     rot_new(ball_ang, max_rot)
+
+    view = seg.sement_all()
+    print(view)
     go(0.75 , 2, 0.05)
 
 if __name__ == '__main__':
