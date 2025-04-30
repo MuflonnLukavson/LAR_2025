@@ -34,7 +34,7 @@ def ball_segmentation(hsv, avg_bright, point_c):
     rem_out = []
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
-        if ( (area < 500) or (r + y_len < 100)):
+        if ((area < 500) or (r + y_len < 100)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         elif ( im.check_prop_circle(x_len, y_len)):

@@ -23,7 +23,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     # Removing components smaller than defined area or ones that are too high
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
-        if ( (area < 800) or (r + y_len < 100)):
+        if ((area < 800) or (r + y_len < 100)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
@@ -90,14 +90,6 @@ def segment_all(img, point_c = []):
         mask = mask + mask_ball
         objects.append(ball)
 
-
-
-    ## Showing mask of the segmented image (does not work for windows <3)
-    # cv2.imshow("img",img)
-    # cv2.imshow('mask', mask)
-    # k = cv2.waitKey(5000) & 0xFF
-    
-    # cv2.destroyAllWindows()
     return objects, mask
 
 ##  ISSUES

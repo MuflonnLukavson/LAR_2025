@@ -9,6 +9,8 @@ turtle = Turtlebot(pc=True, rgb = True)
 rate = Rate(100)
 
 WINDOW = "test"
+MAX_ROT = 1.57
+
 
 def go(dis, max_speed):
     P_go = 0.5
@@ -182,7 +184,7 @@ def scan_for_ball():
         if blue == 2 and yellow == 1:
             all = True
         else:
-            turtle.cmd_velocity(angular= ang_vel)
+            rot_new(m.pi/6,MAX_ROT)
         rate.sleep()
     
     print(imp_objects)
