@@ -43,26 +43,33 @@ class Object():
         return self.coords_2D != None
 
     
-    def map_to_pc(self, im_x, im_y, pc):
-        """
-        Gets minumum distanced coords of 5x5 surrounding pixels
-        values are in meters
-        """
-        # TODO sometimes returns NaN - is it a problem?
-        x = int(round(im_x))
-        y = int(round(im_y))
-        # print(x,y)  
-        res_pos = []
-        for i in range(5):
-            for j in range(5):
-                if y + i < 480 and x + j < 640:
-                    # print(pc[y + i][x + j])
-                    pos = pc[y+i][x+j]
-                    if (len(res_pos) == 0 or res_pos[2] > pos[2]) \
-                        and not (m.isnan(pos[2])):
-                        # asigning pointcould position
-                        res_pos = pos
-                    else:
-                        pass
-        return res_pos
+import math as m
+import numpy as np
+
+def map_to_pc(self, im_x, im_y, pc):
+    """
+    Returns the average point cloud coordinates of a 5x5 neighborhood
+    around (im_x, im_y). Coordinates are in meters.
+    Ignores NaN values.
+    """
+    x = int(round(im_x))
+    y = int(round(im_y))
+
+    valid_points = []
+
+    for i in range(5):
+        for j in range(5):
+            px = x + j
+            py = y + i
+            if 0 <= px < 640 and 0 <= py < 480:
+                pos = pc[py][px]
+                if not any(m.isnan(coord) for coord in pos):
+                    valid_points.append(pos)
+
+    if valid_points:
+        avg_pos = np.mean(valid_points, axis=0)
+        return avg_pos.tolist()
+    else:
+        return [float('nan'), float('nan'), float('nan')]  # or handle as needed
+
     
