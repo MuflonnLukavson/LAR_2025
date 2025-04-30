@@ -42,34 +42,30 @@ class Object():
     def has_coords_2D(self):
         return self.coords_2D != None
 
-    
-import math as m
-import numpy as np
+    def map_to_pc(self, im_x, im_y, pc):
+        """
+        Returns the average point cloud coordinates of a 5x5 neighborhood
+        around (im_x, im_y). Coordinates are in meters.
+        Ignores NaN values.
+        """
+        x = int(round(im_x))
+        y = int(round(im_y))
 
-def map_to_pc(self, im_x, im_y, pc):
-    """
-    Returns the average point cloud coordinates of a 5x5 neighborhood
-    around (im_x, im_y). Coordinates are in meters.
-    Ignores NaN values.
-    """
-    x = int(round(im_x))
-    y = int(round(im_y))
+        valid_points = []
 
-    valid_points = []
+        for i in range(5):
+            for j in range(5):
+                px = x + j
+                py = y + i
+                if 0 <= px < 640 and 0 <= py < 480:
+                    pos = pc[py][px]
+                    if not any(m.isnan(coord) for coord in pos):
+                        valid_points.append(pos)
 
-    for i in range(5):
-        for j in range(5):
-            px = x + j
-            py = y + i
-            if 0 <= px < 640 and 0 <= py < 480:
-                pos = pc[py][px]
-                if not any(m.isnan(coord) for coord in pos):
-                    valid_points.append(pos)
-
-    if valid_points:
-        avg_pos = np.mean(valid_points, axis=0)
-        return avg_pos.tolist()
-    else:
-        return [float('nan'), float('nan'), float('nan')]  # or handle as needed
+        if valid_points:
+            avg_pos = np.mean(valid_points, axis=0)
+            return avg_pos.tolist()
+        else:
+            return [float('nan'), float('nan'), float('nan')]  # or handle as needed
 
     
