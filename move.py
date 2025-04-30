@@ -260,6 +260,8 @@ def ball_center():
     return ang_to_ball
 
 def main():
+    turtle = Turtlebot(pc=True, rgb = True)
+    rate = Rate(100)
     turtle.reset_odometry()
 
     turtle.wait_for_odometry()
@@ -268,9 +270,12 @@ def main():
     max_rot = 1.57
     max_go = 0.69
 
-    tubes = get_objects(turtle)
-    print(tubes)
-    for tube in tubes:
+    go = True
+
+    imp_obj = scan_for_ball(turtle)
+    print(imp_obj)
+
+    for tube in imp_obj:
         if tube.color == "yellow":
             ball = tube
         if tube.color == "blue":
@@ -301,7 +306,6 @@ def main():
     input()
     rot_new(ball_ang, max_rot)
     go(1, 1, 0.02)
-
 
 if __name__ == '__main__':
     main()
