@@ -262,6 +262,14 @@ def ball_center():
                 found_angle = True
     return ang_to_ball
 
+def get_img_pc(turtle):
+    turtle.wait_for_rgb_image()
+    turtle.wait_for_point_cloud()
+
+    pc = turtle.get_point_cloud()
+    img = turtle.get_rgb_image()
+    return img, pc
+
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
@@ -308,7 +316,8 @@ def main():
     input()
     rot_new(ball_ang, max_rot)
 
-    view = seg.segment_all()
+    img, pc = get_img_pc(turtle)
+    view = seg.segment_all(img, pc)
     print(view)
     go(0.75 , 2, 0.05)
 
