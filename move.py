@@ -240,23 +240,26 @@ def ball_center():
         print("------------")
         rate.sleep()
 
-    turtle.wait_for_rgb_image()
-    turtle.wait_for_point_cloud()
-
-    pc = turtle.get_point_cloud()
-    img = turtle.get_rgb_image()
-    segs, mask = seg.segment_all(img, pc)
-
-    print(segs)
-    input()
-
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    odo = turtle.get_odometry()
     ang_to_ball = 0
-    for segment in segs:
-        if segment.color == "yellow":
-            ang_to_ball = vyp.ang_to_ball(segment.pc_pos, odo)
+    found_angle = False
+    input()
+    while not found_angle:
+        turtle.wait_for_rgb_image()
+        turtle.wait_for_point_cloud()
+
+        pc = turtle.get_point_cloud()
+        img = turtle.get_rgb_image()
+        segs, mask = seg.segment_all(img, pc)
+
+        print(segs)
+
+        turtle.wait_for_odometry()
+        turtle.wait_for_odometry()
+        odo = turtle.get_odometry()
+        for segment in segs:
+            if segment.color == "yellow":
+                ang_to_ball = vyp.ang_to_ball(segment.pc_pos, odo)
+                found_angle = True
     return ang_to_ball
 
 def main():
@@ -305,7 +308,7 @@ def main():
     input()
     rot_new(ball_ang, max_rot)
 
-    view = seg.sement_all()
+    view = seg.segment_all()
     print(view)
     go(0.75 , 2, 0.05)
 
