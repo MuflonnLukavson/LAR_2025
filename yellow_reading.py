@@ -18,8 +18,9 @@ def ball_segmentation(hsv, avg_bright, point_c):
         lower_yellow = np.array([18, 50, 50])
         upper_yellow = np.array([30, 255, 255])
     else:
-        lower_yellow = np.array([20, 80, 80])
-        upper_yellow = np.array([30, 255, 255])
+        # Chnged thresh holds from 20,30
+        lower_yellow = np.array([22, 80, 80])
+        upper_yellow = np.array([28, 255, 255])
 
     # Masking yellow - where it is in bounds -> sets 1 
     mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
@@ -93,7 +94,7 @@ def ball_segmentation(hsv, avg_bright, point_c):
 # If there is not enough light in the room, threshhold is fucked. --  lower_yellow = np.array([18, 50, 50]) this works for lower light level -58, 45, 46, 49, 
 
 if __name__ == '__main__':
-    img = cv2.imread("obr.png")
+    img = cv2.imread("ball_images/obr2.png")
     avg_bright = im.get_overall_bright(img)
     hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     print(avg_bright)
