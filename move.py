@@ -170,7 +170,7 @@ def scan_for_ball():
         # cv2.waitKey(1)
         for segment in segs:
             segment.trasform_pos_pc2ref(odo)
-            print(segment)
+            print("seg:",segment)
             if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
                 found, count = get_objects(turtle, segment.color)
                 imp_objects.extend(found)
@@ -185,7 +185,7 @@ def scan_for_ball():
             all = True
         else:
             rot_new(m.pi/6,MAX_ROT)
-        rate.sleep()
+            
     
     print(imp_objects)
     return imp_objects
