@@ -67,10 +67,10 @@ def ball_segmentation(hsv, avg_bright, point_c):
             im.clear_mask(mask, r, c, x_len, y_len)
             pass
 
-    cv2.imshow('img',img)
-    cv2.imshow('mask2',mask)
+    # cv2.imshow('img',img)
+    # cv2.imshow('mask2',mask)
 
-    k = cv2.waitKey(5000) & 0xFF
+    # k = cv2.waitKey(5000) & 0xFF
     # Filtering 
     # Drawing countours
     # cv2.drawContours(img, contours, -1, (0,255,0), 3)
