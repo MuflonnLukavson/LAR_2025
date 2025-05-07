@@ -308,7 +308,7 @@ def goal_dis(view):
             tube_coords.append(tube.coords_2D)
     if len(tube_coords) == 2:
         goal_mid = vyp.goal_mid(tube_coords[0], tube_coords[1])
-        dis = (m.sqrt((odo[0] - goal_mid[0])**2 + (odo[1] - goal_mid[1])**2)) - 0.1
+        dis = (m.sqrt((odo[0] - goal_mid[0])**2 + (odo[1] - goal_mid[1])**2)) - 0.3
     else:
         return 0
     return dis
