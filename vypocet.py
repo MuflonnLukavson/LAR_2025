@@ -23,7 +23,7 @@ def is_close(obj1, obj2): # says if 2 objects are close togehter in space
 
 
 def goal_mid(post1,post2): # najdi střed branky
-    print(    dist = math.sqrt(math.pow(post1[0] - post2[0],2) + math.pow(post1[1]-post2[1],2)))
+    print(math.sqrt(math.pow(post1[0] - post2[0],2) + math.pow(post1[1]-post2[1],2)))
     return [post1[0] + (post2[0]-post1[0])/2, post1[1] + (post2[1]-post1[1])/2]
 
 def ball_corr(ball,me): #bere 2d mapu jako ball
