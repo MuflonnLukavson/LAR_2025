@@ -346,6 +346,7 @@ def main():
     print("uhel: ", angle*(180/m.pi))
     print("------")
     print("dist: ", distance)
+    ball_ang = ball_center()
     if abs(angle) < 0.4:
         first_ang,det_dist,second_ang,det_to_kick_dist = vyp.dist_angle_det(odo, ball.coords_2D, kick_off,det_around)
         print("kokotiny:", first_ang,det_dist,second_ang,det_to_kick_dist)
@@ -354,7 +355,7 @@ def main():
         # go(det_dist, max_go, 0.005)
         # rot_new(second_ang, max_rot)
         # go(det_to_kick_dist, max_go, 0.005)
-        distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
+        distance, angle = vyp.dist_angle([0,0], ball.coords_2D, det_around)
         rot_new(ball_ang + angle, max_rot)
         go(distance, max_go, 0.005)
 
