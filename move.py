@@ -303,7 +303,7 @@ def goal_dis(view):
     turtle.wait_for_odometry()
     odo = turtle.get_odometry()
     for tube in view:
-        if tube.collor == "blue":
+        if tube.color == "blue":
             tube_coords.append(tube.coords_2D)
     if len(tube_coords) == 2:
         goal_mid = vyp.goal_mid(tube_coords[0], tube_coords[1])
