@@ -53,10 +53,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
 
 
     ## Creating windows with images
-    # cv2.imshow('img',img)
-    # cv2.imshow('mask2',mask)
 
-    # k = cv2.waitKey(5000) & 0xFF
     
     # cv2.destroyAllWindows()
     return mask, object_list
@@ -71,6 +68,7 @@ def segment_all(img, point_c = []):
     Returns array of objects with defined atributes (see objects.py)
     """
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     bright = im.get_overall_bright(hsv)
     colors = ["blue", "red", "green"]
     mask = []
@@ -89,6 +87,11 @@ def segment_all(img, point_c = []):
     if ball is not None:
         mask = mask + mask_ball
         objects.append(ball)
+
+    # cv2.imshow('img',img)
+    # cv2.imshow('mask2',mask)
+
+    # k = cv2.waitKey(5000) & 0xFF
 
     return objects, mask
 
@@ -109,6 +112,6 @@ def segment_all(img, point_c = []):
 """
 
 if __name__ == '__main__':
-    img = cv2.imread("obr.png")
+    img = cv2.imread("C:\Skola\FEL\\4. Semestr\LAR\\robolab_turtlebot\obr.png")
     
     segment_all(img)
