@@ -70,7 +70,7 @@ def get_objects(turtle, color):
     for obj in objects:
         if obj.color == color:
             obj.trasform_pos_pc2ref(odo)
-            if not (m.isnan(obj.coords_2D[1]) or m.isnan(obj.coords_2D[2])):
+            if not (m.isnan(obj.coords_2D[0]) or m.isnan(obj.coords_2D[1])):
                 res.append(obj)
                 cnt += 1
     return res, cnt
