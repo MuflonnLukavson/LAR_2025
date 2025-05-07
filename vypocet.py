@@ -23,7 +23,7 @@ def is_close(obj1, obj2): # says if 2 objects are close togehter in space
 
 
 def goal_mid(post1,post2): # najdi střed branky
-    print(    dist = math.sqrt(math.pow(post1[0] - post2[0],2) + math.pow(post1[2]-post2[2],2)))
+    print(    dist = math.sqrt(math.pow(post1[0] - post2[0],2) + math.pow(post1[1]-post2[1],2)))
     return [post1[0] + (post2[0]-post1[0])/2, post1[1] + (post2[1]-post1[1])/2]
 
 def ball_corr(ball,me): #bere 2d mapu jako ball
@@ -35,7 +35,6 @@ def ball_corr(ball,me): #bere 2d mapu jako ball
 
 def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     mid = goal_mid(post1, post2)
-    print(mid)
     new_ball = ball_corr(ball, me)
     ball_mid_vec = [new_ball[0]-mid[0], new_ball[1]-mid[1]] # vektor od míče do středu branky
     ball_mid_vec_size = math.sqrt(math.pow(ball_mid_vec[0],2) + math.pow(ball_mid_vec[1],2))
