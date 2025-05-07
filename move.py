@@ -347,7 +347,7 @@ def main():
     print("------")
     print("dist: ", distance)
     if angle < 0.4:
-        first_ang,det_dist,second_ang,det_to_kick_dist = vyp.dist_angle_det(odo, ball, kick_off,det_around)
+        first_ang,det_dist,second_ang,det_to_kick_dist = vyp.dist_angle_det(odo, ball.coords_2, kick_off,det_around)
         rot_new(first_ang, max_rot)
         go(det_dist, max_go, 0.005)
         rot_new(second_ang, max_rot)
