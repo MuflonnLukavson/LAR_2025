@@ -2,7 +2,7 @@ import math
 import tube_seg as seg
 import objects as obj
 
-kick_off_dist = 0.7 # jak daleko od míče chceme vykopávat
+kick_off_dist = 0.5 # jak daleko od míče chceme vykopávat
 nuh_uh = 3 # believable distance
 
 def already_seen(curr_objects, new_obj): # takes array of objects and compares their position to a new object to evaluate if it is actually a new one
@@ -40,7 +40,8 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     ball_mid_vec_size = math.sqrt(math.pow(ball_mid_vec[0],2) + math.pow(ball_mid_vec[1],2))
     ratio = ball_mid_vec_size/kick_off_dist # poměr délky vektoru a požadované vzdálenosti od míče
     kick = [new_ball[0]+ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio]
-    return kick
+    det_pos = [new_ball[0]-ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio] # kdyby bylo třeba objížďka
+    return kick, det_pos
 
 def ang_to_ball(ball,me): #bere pc_pos jako ball
     #new_ball = ball_corr(ball, me)
@@ -56,3 +57,17 @@ def dist_angle(me, ball, kick): # místo výkopu do úhlu(úhel od toho, když s
         ang = -ang
     # --old-- ang_corr =  math.tan(new_ball[0]/new_ball[1]) #uhel od ted k mistu
     return kick_dist, ang
+    
+def dist_angle_det(me, ball, kick,det): # if normal angle is < 24°(0.4 rad)
+    new_ball = ball_corr(ball, me)
+    ball_dist = math.sqrt(math.pow(me[0]-new_ball[0],2) + math.pow(me[1]-new_ball[1],2))
+    # kick_dist = math.sqrt(math.pow(me[0]-kick[0],2) + math.pow(me[1]-kick[1],2))
+    det_dist = math.sqrt(math.pow(me[0]-det[0],2) + math.pow(me[1]-det[1],2))
+    det_to_kick_dist = math.sqrt(math.pow(det[0]-kick[0],2) + math.pow(det[1]-kick[1],2))
+    first_ang = math.acos((math.pow(ball_dist,2)+math.pow(det_dist,2)-math.pow(kick_off_dist,2))/(2*ball_dist*det_dist))
+    if (new_ball[0] - me[0])*(det[1] - me[1]) - (new_ball[1] - me[1])*(det[0] - me[0]) < 0:
+        first_ang = -first_ang
+    second_ang = math.acos((math.pow(kick_off_dist,2)+math.pow(det_to_kick_dist,2)-math.pow(kick_off_dist,2))/(2*kick_off_dist*det_to_kick_dist))
+    if (new_ball[0] - det[0])*(kick[1] - det[1]) - (new_ball[1] - det[1])*(kick[0] - det[0]) < 0:
+        second_ang = -second_ang
+    return first_ang,det_dist,second_ang,det_to_kick_dist

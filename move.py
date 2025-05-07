@@ -308,7 +308,7 @@ def goal_dis(view):
             tube_coords.append(tube.coords_2D)
     if len(tube_coords) == 2:
         goal_mid = vyp.goal_mid(tube_coords[0], tube_coords[1])
-        dis = (m.sqrt((odo[0] - goal_mid[0])**2 + (odo[1] - goal_mid[1])**2)) - 0.3
+        dis = (m.sqrt((odo[0] - goal_mid[0])**2 + (odo[1] - goal_mid[1])**2)) - 0.5
     else:   
         return 0
     return dis
@@ -362,9 +362,9 @@ def main():
     imp_obj = scan_for_ball(turtle)
     img, pc = get_img_pc(turtle)
     view, mask = seg.segment_all(img, pc)
-    input()
     dis = goal_dis(view)
     print(dis)
+    input()
     if dis > 0:
         goal(dis, 15, 0.01)
 
