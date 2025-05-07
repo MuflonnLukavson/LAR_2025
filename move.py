@@ -40,11 +40,11 @@ def scan_for_ball(turtle):
             segment.trasform_pos_pc2ref(odo)
             print("seg:",segment)
             if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
-                found, count = get_objects(turtle, segment.color)
+                found, count = get_objects(turtle, segment.color, imp_objects)
                 imp_objects.extend(found)
                 yellow += count
             if segment.color == "blue" and not vyp.already_seen(imp_objects, segment):
-                found, count = get_objects(turtle, segment.color)
+                found, count = get_objects(turtle, segment.color, imp_objects)
                 blue += count
                 imp_objects.extend(found)
                 ang_vel = -ang_vel
@@ -57,7 +57,7 @@ def scan_for_ball(turtle):
     print(imp_objects)
     return imp_objects
 
-def get_objects(turtle, color):
+def get_objects(turtle, color, imp_objects):
     turtle.wait_for_rgb_image()
     turtle.wait_for_point_cloud()
 
@@ -70,7 +70,8 @@ def get_objects(turtle, color):
     for obj in objects:
         if obj.color == color:
             obj.trasform_pos_pc2ref(odo)
-            if not (m.isnan(obj.coords_2D[0]) or m.isnan(obj.coords_2D[1])):
+            if not (m.isnan(obj.coords_2D[0]) or m.isnan(obj.coords_2D[1])) \
+            and not vyp.already_seen(imp_objects, obj):
                 res.append(obj)
                 cnt += 1
     return res, cnt
