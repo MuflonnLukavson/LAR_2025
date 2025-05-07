@@ -20,7 +20,7 @@ def rot_30_deg(turtle):
         rate.sleep()
 
 def scan_for_ball(turtle):
-
+    turtle.reset_odometry()
     all = False
     imp_objects = []
     # cv2.namedWindow(WINDOW)
