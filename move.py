@@ -275,6 +275,43 @@ def get_img_pc(turtle):
     img = turtle.get_rgb_image()
     return img, pc
 
+
+def goal(dis, speed, accel):
+    poss_err = 0.05
+    go_speed = speed
+    turtle.reset_odometry()
+    turtle.wait_for_odometry()
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    err = dis - odo[0]
+    prev_speed = 0
+    while err > poss_err:
+        go_speed = speed
+        if (go_speed - prev_speed) > accel:
+            go_speed = prev_speed + accel
+        prev_speed = go_speed
+        turtle.cmd_velocity(linear=go_speed)
+        odo = turtle.get_odometry()
+        err = dis - odo[0]
+        rate.sleep()
+    turtle.cmd_velocity(linear=0)
+    odo = turtle.get_odometry()
+    turtle.wait_for_odometry()
+
+def goal_dis(view):
+    tube_coords = []
+    turtle.wait_for_odometry()
+    odo = turtle.get_odometry()
+    for tube in view:
+        if tube.collor == "blue":
+            tube_coords.append(tube.coords_2D)
+    if len(tube_coords) == 2:
+        goal_mid = vyp.goal_mid(tube_coords[0], tube_coords[1])
+        dis = (m.sqrt((odo[0] - goal_mid[0])**2 + (odo[1] - goal_mid[1])**2)) - 0.1
+    else:
+        return 0
+    return dis
+
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
@@ -321,8 +358,14 @@ def main():
     input()
     rot_new(ball_ang, max_rot)
 
-    print(scan_for_ball(turtle))
-    go(0.75 , 2, 0.05)
+    imp_obj = scan_for_ball(turtle)
+    img, pc = get_img_pc(turtle)
+    view, mask = seg.segment_all(img, pc)
+    input()
+    dis = goal_dis(view)
+    if dis > 0:
+        goal_dis = dis
+    goal(goal_dis, 15, 0.01)
 
 if __name__ == '__main__':
     main()
