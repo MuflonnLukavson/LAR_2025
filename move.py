@@ -350,10 +350,34 @@ def main():
         first_ang,det_dist,second_ang,det_to_kick_dist = vyp.dist_angle_det(odo, ball.coords_2D, kick_off,det_around)
         print("kokotiny:", first_ang,det_dist,second_ang,det_to_kick_dist)
         input()
-        rot_new(first_ang, max_rot)
-        go(det_dist, max_go, 0.005)
-        rot_new(second_ang, max_rot)
-        go(det_to_kick_dist, max_go, 0.005)
+        # rot_new(first_ang, max_rot)
+        # go(det_dist, max_go, 0.005)
+        # rot_new(second_ang, max_rot)
+        # go(det_to_kick_dist, max_go, 0.005)
+        distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
+        rot_new(ball_ang + angle, max_rot)
+        go(distance, max_go, 0.005)
+
+        imp_obj = scan_for_ball(turtle)
+        for tube in imp_obj:
+            if tube.color == "yellow":
+                ball = tube
+            if tube.color == "blue":
+                if 'tube1' not in locals():
+                    tube1 = tube
+                else:
+                    tube2 = tube
+        
+        turtle.wait_for_odometry()
+        turtle.wait_for_odometry()
+        odo = turtle.get_odometry()
+        
+        kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
+        distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
+        print("uhel: ", angle*(180/m.pi))
+        print("------")
+        print("dist: ", distance)
+
 
 
     ball_ang = ball_center()
