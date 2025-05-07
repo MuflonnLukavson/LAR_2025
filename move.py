@@ -341,7 +341,7 @@ def main():
     turtle.wait_for_odometry()
     odo = turtle.get_odometry()
     
-    kick_off = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
+    kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
     distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
     print("uhel: ", angle*(180/m.pi))
     print("------")
