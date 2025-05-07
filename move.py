@@ -57,7 +57,7 @@ def scan_for_ball(turtle):
     print(imp_objects)
     return imp_objects
 
-def get_objects(turtle, color, imp_objects):
+def get_objects(turtle, color, imp_objects=[]):
     turtle.wait_for_rgb_image()
     turtle.wait_for_point_cloud()
 
@@ -321,9 +321,7 @@ def main():
     input()
     rot_new(ball_ang, max_rot)
 
-    img, pc = get_img_pc(turtle)
-    view, mask = seg.segment_all(img, pc)
-    print(view)
+    print(scan_for_ball(turtle))
     go(0.75 , 2, 0.05)
 
 if __name__ == '__main__':
