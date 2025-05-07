@@ -364,8 +364,7 @@ def main():
     input()
     dis = goal_dis(view)
     if dis > 0:
-        goal_dis = dis
-    goal(goal_dis, 15, 0.01)
+        goal(dis, 15, 0.01)
 
 if __name__ == '__main__':
     main()
