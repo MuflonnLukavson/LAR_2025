@@ -356,7 +356,7 @@ def main():
         # rot_new(second_ang, max_rot)
         # go(det_to_kick_dist, max_go, 0.005)
         distance, angle = vyp.dist_angle([0,0], ball.coords_2D, det_around)
-        rot_new(ball_ang, max_rot)
+        rot_new(angle, max_rot)
         go(distance, max_go, 0.005)
 
         imp_obj = scan_for_ball(turtle)
