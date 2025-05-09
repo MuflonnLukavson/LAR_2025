@@ -336,7 +336,7 @@ def get_dist_angle(turtle, imp_objects):
     print("kick_off:", kick_off, "det_around:", det_around)
 
     if vyp.check_collison(imp_objects, angle):
-        print("Colision detected!")
+        print("\n Colision detected! \n")
         distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, det_around)
     else:    
         print("No colision detected!")
@@ -375,9 +375,9 @@ def main():
     
     # kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
     # distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
-    # print("uhel: ", angle*(180/m.pi))
-    # print("------")
-    # print("dist: ", distance)
+    print("uhel: ", angle*(180/m.pi))
+    print("------")
+    print("dist: ", distance)
 
     # ball_ang = ball_center()
     # if abs(angle) < 0.4:
@@ -412,7 +412,7 @@ def main():
     #     print("------")
     #     print("dist: ", distance)
 
-
+    input()
 
     ball_ang = ball_center()
     print("uhel: ", (ball_ang+angle)*(180/m.pi))
