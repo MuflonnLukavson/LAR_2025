@@ -244,7 +244,7 @@ def ball_center():
 
     ang_to_ball = 0
     found_angle = False
-    input()
+
     while not found_angle:
         turtle.wait_for_rgb_image()
         turtle.wait_for_point_cloud()
@@ -347,6 +347,7 @@ def get_dist_angle(turtle, imp_objects):
 
 
 def is_ready(dist, collision):
+    print(f"distance: {dist}, collision: {collision}")
     return dist < 0.1 and not collision
 
 def main():
@@ -366,25 +367,24 @@ def main():
         print(imp_obj)
 
         distance, angle, collision = get_dist_angle(turtle, imp_obj)
+        ready2goal = is_ready(distance, collision)
 
         print("uhel: ", angle*(180/m.pi))
         print("------")
         print("dist: ", distance)
 
+        if not ready2goal:
+            ball_ang = ball_center()
+            print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
 
-        ball_ang = ball_center()
-        print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
-
-        odo = turtle.get_odometry()
-        back_angle = vyp.get_ret_angle(odo, angle + ball_ang)
+            odo = turtle.get_odometry()
+            back_angle = vyp.get_ret_angle(odo, angle + ball_ang)
 
 
-        rot_new(angle + ball_ang, max_rot)
-        go(distance, max_go, 0.005)
+            rot_new(angle + ball_ang, max_rot)
+            go(distance, max_go, 0.005)
 
-        rot_new(back_angle, max_rot)
-
-        ready2goal = is_ready(distance, collision)
+            rot_new(back_angle, max_rot)
 
         input()
 
