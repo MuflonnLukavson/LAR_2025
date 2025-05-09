@@ -346,7 +346,8 @@ def get_dist_angle(turtle, imp_objects):
     return distance, angle, collision
 
 
-
+def is_ready(dist, collision):
+    return dist < 0.1 and not collision
 
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
@@ -383,6 +384,7 @@ def main():
 
         rot_new(back_angle, max_rot)
 
+        ready2goal = is_ready(distance, collision)
 
         input()
 
