@@ -47,7 +47,7 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     print("me2ball", me2ball)
     me2ball_size = math.sqrt(math.pow(me2ball[0],2) + math.pow(me2ball[1],2))
     ratio_det = me2ball_size/0.5
-    det_pos2= [new_ball[0] - me2ball / ratio_det, new_ball[1] + me2ball[1] / ratio_det]
+    det_pos2= [new_ball[0] - me2ball[0] / ratio_det, new_ball[1] + me2ball[1] / ratio_det]
     print(det_pos, det_pos2)
     return kick, det_pos
 
