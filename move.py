@@ -355,80 +355,28 @@ def main():
 
     max_rot = 1.57
     max_go = 0.69
+    ready2goal = False
+
+    while not ready2goal:
+        imp_obj = scan_for_ball(turtle)
+        print(imp_obj)
+
+        distance, angle, collision = get_dist_angle(turtle, imp_obj)
+
+        print("uhel: ", angle*(180/m.pi))
+        print("------")
+        print("dist: ", distance)
 
 
-    imp_obj = scan_for_ball(turtle)
-    print(imp_obj)
+        ball_ang = ball_center()
+        print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
 
-    distance, angle, collision = get_dist_angle(turtle, imp_obj)
+        rot_new(angle + ball_ang, max_rot)
+        go(distance, max_go, 0.005)
 
-    # for tube in imp_obj:
-    #     if tube.color == "yellow":
-    #         ball = tube
-    #     if tube.color == "blue":
-    #         if 'tube1' not in locals():
-    #             tube1 = tube
-    #         else:
-    #             tube2 = tube
-    
-    # turtle.wait_for_odometry()
-    # turtle.wait_for_odometry()
-    # odo = turtle.get_odometry()
-    
-    # kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
-    # distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
-    print("uhel: ", angle*(180/m.pi))
-    print("------")
-    print("dist: ", distance)
-
-    # ball_ang = ball_center()
-    # if abs(angle) < 0.4:
-    #     first_ang,det_dist,second_ang,det_to_kick_dist = vyp.dist_angle_det(odo, ball.coords_2D, kick_off,det_around)
-    #     print("kokotiny:", first_ang,det_dist,second_ang,det_to_kick_dist)
-    #     input()
-    #     # rot_new(first_ang, max_rot)
-    #     # go(det_dist, max_go, 0.005)
-    #     # rot_new(second_ang, max_rot)
-    #     # go(det_to_kick_dist, max_go, 0.005)
-    #     distance, angle = vyp.dist_angle([0,0], ball.coords_2D, det_around)
-    #     rot_new(angle, max_rot)
-    #     go(distance, max_go, 0.005)
-
-    #     imp_obj = scan_for_ball(turtle)
-    #     for tube in imp_obj:
-    #         if tube.color == "yellow":
-    #             ball = tube
-    #         if tube.color == "blue":
-    #             if 'tube1' not in locals():
-    #                 tube1 = tube
-    #             else:
-    #                 tube2 = tube
         
-    #     turtle.wait_for_odometry()
-    #     turtle.wait_for_odometry()
-    #     odo = turtle.get_odometry()
-        
-    #     kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
-    #     distance, angle = vyp.dist_angle([0,0], ball.coords_2D, kick_off)
-    #     print("uhel: ", angle*(180/m.pi))
-    #     print("------")
-    #     print("dist: ", distance)
 
-    input()
-
-    ball_ang = ball_center()
-    print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
-    input()
-    # if collision:
-    #     rot_new(angle, max_rot)
-    # else:
-    rot_new(angle + ball_ang, max_rot)
-    go(distance, max_go, 0.005)
-
-    ball_ang = ball_center()
-    print("uhel: ", ball_ang*(180/m.pi))
-    input()
-    rot_new(ball_ang, max_rot)
+        input()
 
     imp_obj = scan_for_ball(turtle)
     img, pc = get_img_pc(turtle)
