@@ -354,7 +354,17 @@ def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
     turtle.reset_odometry()
-    sec = help.Security()
+    sec = help.Security()  
+    ## TODO - implement security feature, so that robot stops when he bumbs into something
+    ## - Change in help_func self.button = False;
+    turtle.register_button_event_cb(sec.button_cb)
+    turtle.register_bumper_event_cb(sec.bumper_cb)
+    ready2start = False
+
+    while not ready2start:
+        ready2start = sec.button_pressed
+
+    turtle.play_sound(2)
 
     turtle.wait_for_odometry()
     turtle.wait_for_odometry()
@@ -363,10 +373,13 @@ def main():
     max_go = 0.69
     ready2goal = False
 
-    while not ready2goal and not sec.bumped2obst:
+    while   not turtle.is_shutting_down() \
+            and not ready2goal and not sec.bumped2obst:
+        # scan for objects
         imp_obj = scan_for_ball(turtle)
         print(imp_obj)
 
+        # claculate distance and angle to make a move
         distance, angle, collision = get_dist_angle(turtle, imp_obj)
         ready2goal = is_ready(distance, collision)
 
@@ -374,6 +387,7 @@ def main():
         print("------")
         print("dist: ", distance)
 
+        # if is not at goaling position move according to calculated values
         if not ready2goal:
             ball_ang = ball_center()
             print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
@@ -386,8 +400,10 @@ def main():
             go(distance, max_go, 0.005)
 
             rot_new(back_angle, max_rot)
+        
         print("ready2goal",ready2goal)
         input()
+    ## Proceed with scoring a goal    
     print("\nGoing for gall!!\n")
     imp_obj = scan_for_ball(turtle)
     img, pc = get_img_pc(turtle)
