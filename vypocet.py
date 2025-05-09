@@ -2,7 +2,7 @@ import math
 import tube_seg as seg
 import objects as obj
 
-kick_off_dist = 0.5 # jak daleko od míče chceme vykopávat
+kick_off_dist = 0.7 # jak daleko od míče chceme vykopávat
 nuh_uh = 3 # believable distance
 
 def already_seen(curr_objects, new_obj): # takes array of objects and compares their position to a new object to evaluate if it is actually a new one

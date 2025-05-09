@@ -23,7 +23,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
     # Removing components smaller than defined area or ones that are too high
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
-        if ((area < 500) or (r + y_len < 100)):
+        if ((area < 300) or (r + y_len < 80)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         else:
