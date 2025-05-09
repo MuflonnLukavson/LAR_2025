@@ -385,7 +385,7 @@ def main():
             go(distance, max_go, 0.005)
 
             rot_new(back_angle, max_rot)
-
+        print("ready2goal",ready2goal)
         input()
     print("\nGoing for gall!!\n")
     imp_obj = scan_for_ball(turtle)
