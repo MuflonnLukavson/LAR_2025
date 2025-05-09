@@ -60,9 +60,14 @@ def dist_angle(me, ball, kick): # místo výkopu do úhlu(úhel od toho, když s
     return kick_dist, ang
     
 def check_collison(objects, angle):
+    """
+    Function checks if three objects are in same y axis direction
+    and if the robot would colide with them according to calculated angle.
+    If they are not, function returns True.
+    """
     same_side = np.sign(objects[0].coords_2D[1]) == np.sign(objects[1].coords_2D[1]) == np.sign(objects[2].coords_2D[1])
     print(same_side)
-    return angle < 0.4 and same_side
+    return angle < 0.4 and not same_side
 
 
 def dist_angle_det(me, ball, kick,det): # if normal angle is < 24°(0.4 rad)
