@@ -79,6 +79,12 @@ def check_collison(objects, angle):
     print(same_side)
     return angle < 0.4 and not same_side
 
+def get_ret_angle(odo, angle):
+    """
+    Function which calculates the angle which
+    should robot rotate to face the ball after movement
+    """
+    return -(odo[2] + angle)
 
 
 

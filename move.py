@@ -345,6 +345,9 @@ def get_dist_angle(turtle, imp_objects):
 
     return distance, angle, collision
 
+
+
+
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
@@ -371,10 +374,15 @@ def main():
         ball_ang = ball_center()
         print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
 
+        odo = turtle.get_odometry()
+        back_angle = vyp.get_ret_angle(odo, angle + ball_ang)
+
+
         rot_new(angle + ball_ang, max_rot)
         go(distance, max_go, 0.005)
 
-        
+        rot_new(back_angle, max_rot)
+
 
         input()
 
