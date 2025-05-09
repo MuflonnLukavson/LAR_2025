@@ -352,6 +352,8 @@ def main():
     print(imp_obj)
 
     distance, angle = get_dist_angle(turtle, imp_obj)
+    if vyp.check_collison(imp_obj, angle):
+        pass
     # for tube in imp_obj:
     #     if tube.color == "yellow":
     #         ball = tube

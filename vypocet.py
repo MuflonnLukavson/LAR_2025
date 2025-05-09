@@ -1,6 +1,7 @@
 import math
 import tube_seg as seg
 import objects as obj
+import numpy as np
 
 kick_off_dist = 0.7 # jak daleko od míče chceme vykopávat
 nuh_uh = 3 # believable distance
@@ -58,6 +59,12 @@ def dist_angle(me, ball, kick): # místo výkopu do úhlu(úhel od toho, když s
     # --old-- ang_corr =  math.tan(new_ball[0]/new_ball[1]) #uhel od ted k mistu
     return kick_dist, ang
     
+def check_collison(objects, angle):
+    same_side = np.sign(objects[0].coords_2D[1]) == np.sign(objects[1].coords_2D[1]) == np.sign(objects[2].coords_2D[1])
+    print(same_side)
+    return angle < 0.4 and same_side
+
+
 def dist_angle_det(me, ball, kick,det): # if normal angle is < 24°(0.4 rad)
     new_ball = ball_corr(ball, me)
     ball_dist = math.sqrt(math.pow(me[0]-new_ball[0],2) + math.pow(me[1]-new_ball[1],2))
