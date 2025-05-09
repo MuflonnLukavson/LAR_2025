@@ -9,7 +9,7 @@ class Security():
     def __init__(self):
         self.button_pressed = True # TODO change to FALSE
         self.bumper = False
-
+        self.bumped2obst = False
 
     def bumper_cb(self, msg):
         """Bumber callback."""
@@ -23,6 +23,7 @@ class Security():
         print('DEBUG: {} bumper {}'.format(bumper, state))
         if bumper == 1:
             self.bumper = True
+            self.bumped2obst = True
         else:
             self.bumper = False 
 

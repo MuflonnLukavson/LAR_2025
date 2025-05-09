@@ -354,6 +354,7 @@ def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
     turtle.reset_odometry()
+    sec = help.Security()
 
     turtle.wait_for_odometry()
     turtle.wait_for_odometry()
@@ -362,7 +363,7 @@ def main():
     max_go = 0.69
     ready2goal = False
 
-    while not ready2goal:
+    while not ready2goal and not sec.bumped2obst:
         imp_obj = scan_for_ball(turtle)
         print(imp_obj)
 
@@ -396,6 +397,8 @@ def main():
     input()
     if dis > 0:
         goal(dis, 15, 0.01)
+        turtle.play_sound(1)
+
 
 if __name__ == '__main__':
     main()
