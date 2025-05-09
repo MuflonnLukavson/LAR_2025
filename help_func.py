@@ -7,7 +7,7 @@ button_num = ['Button 1', 'Button 2', 'Button 3']
 
 class Security():
     def __init__(self):
-        self.button_pressed = True # TODO change to FALSE
+        self.button_pressed = False # TODO change to FALSE
         self.bumper = False
         self.bumped2obst = False
 

@@ -386,7 +386,7 @@ def main():
         print("uhel: ", angle*(180/m.pi))
         print("------")
         print("dist: ", distance)
-
+        print("ready2goal",ready2goal)
         # if is not at goaling position move according to calculated values
         if not ready2goal:
             ball_ang = ball_center()
@@ -400,20 +400,22 @@ def main():
             go(distance, max_go, 0.005)
 
             rot_new(back_angle, max_rot)
-        
-        print("ready2goal",ready2goal)
+        else:
+            ## Proceed with scoring a goal
+            print("\nGoing for gall!!\n")
+            imp_obj = scan_for_ball(turtle)
+            img, pc = get_img_pc(turtle)
+            view, mask = seg.segment_all(img, pc)
+            dis = goal_dis(view)
+            print(dis)
+            input()
+            if dis > 0:
+                goal(dis, 15, 0.01)
+                turtle.play_sound(1)
+                break
+
         input()
-    ## Proceed with scoring a goal    
-    print("\nGoing for gall!!\n")
-    imp_obj = scan_for_ball(turtle)
-    img, pc = get_img_pc(turtle)
-    view, mask = seg.segment_all(img, pc)
-    dis = goal_dis(view)
-    print(dis)
-    input()
-    if dis > 0:
-        goal(dis, 15, 0.01)
-        turtle.play_sound(1)
+
 
 
 if __name__ == '__main__':
