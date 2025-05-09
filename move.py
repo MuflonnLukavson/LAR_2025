@@ -387,7 +387,7 @@ def main():
             rot_new(back_angle, max_rot)
 
         input()
-
+    print("\nGoing for gall!!\n")
     imp_obj = scan_for_ball(turtle)
     img, pc = get_img_pc(turtle)
     view, mask = seg.segment_all(img, pc)
