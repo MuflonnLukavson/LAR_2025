@@ -41,7 +41,7 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     ball_mid_vec_size = math.sqrt(math.pow(ball_mid_vec[0],2) + math.pow(ball_mid_vec[1],2))
     ratio = ball_mid_vec_size/kick_off_dist # poměr délky vektoru a požadované vzdálenosti od míče
     kick = [new_ball[0]+ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio]
-    det_pos = [new_ball[0]-ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio] # kdyby bylo třeba objížďka
+    det_pos = [new_ball[0]+ball_mid_vec[0]/ratio, new_ball[1]-ball_mid_vec[1]/ratio] # kdyby bylo třeba objížďka
     return kick, det_pos
 
 def ang_to_ball(ball,me): #bere pc_pos jako ball
