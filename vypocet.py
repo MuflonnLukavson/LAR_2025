@@ -41,7 +41,7 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     ball_mid_vec_size = math.sqrt(math.pow(ball_mid_vec[0],2) + math.pow(ball_mid_vec[1],2))
     ratio = ball_mid_vec_size/kick_off_dist # poměr délky vektoru a požadované vzdálenosti od míče
     kick = [new_ball[0]+ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio]
-    det_pos = [new_ball[0]+ball_mid_vec[0]/ratio, new_ball[1]-ball_mid_vec[1]/ratio] # kdyby bylo třeba objížďka
+    det_pos = [new_ball[0]-ball_mid_vec[0]/ratio, new_ball[1]+ball_mid_vec[1]/ratio] # kdyby bylo třeba objížďka
     return kick, det_pos
 
 def ang_to_ball(ball,me): #bere pc_pos jako ball
@@ -68,6 +68,11 @@ def check_collison(objects, angle):
     same_side = np.sign(objects[0].coords_2D[1]) == np.sign(objects[1].coords_2D[1]) == np.sign(objects[2].coords_2D[1])
     print(same_side)
     return angle < 0.4 and not same_side
+
+def get_detour_pos(me, ball):
+    """
+    calculates the 
+    """
 
 
 def dist_angle_det(me, ball, kick,det): # if normal angle is < 24°(0.4 rad)
