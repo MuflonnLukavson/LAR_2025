@@ -419,10 +419,10 @@ def main():
     ball_ang = ball_center()
     print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
     input()
-    if collision:
-        rot_new(angle, max_rot)
-    else:
-        rot_new(angle + ball_ang, max_rot)
+    # if collision:
+    #     rot_new(angle, max_rot)
+    # else:
+    rot_new(angle + ball_ang, max_rot)
     go(distance, max_go, 0.005)
 
     ball_ang = ball_center()
