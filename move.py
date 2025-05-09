@@ -338,10 +338,12 @@ def get_dist_angle(turtle, imp_objects):
     if vyp.check_collison(imp_objects, angle):
         print("\n Colision detected! \n")
         distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, det_around)
+        collision = True
     else:    
         print("No colision detected!")
+        collision = False
 
-    return distance, angle
+    return distance, angle, collision
 
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
@@ -358,7 +360,7 @@ def main():
     imp_obj = scan_for_ball(turtle)
     print(imp_obj)
 
-    distance, angle = get_dist_angle(turtle, imp_obj)
+    distance, angle, collision = get_dist_angle(turtle, imp_obj)
 
     # for tube in imp_obj:
     #     if tube.color == "yellow":
@@ -415,10 +417,12 @@ def main():
     input()
 
     ball_ang = ball_center()
-    print("uhel: ", (ball_ang+angle)*(180/m.pi))
+    print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
     input()
-    rot_new(ball_ang + angle, max_rot)
-
+    if collision:
+        rot_new(angle, max_rot)
+    else:
+        rot_new(angle + ball_ang, max_rot)
     go(distance, max_go, 0.005)
 
     ball_ang = ball_center()
