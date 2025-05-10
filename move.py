@@ -24,7 +24,7 @@ def scan_for_ball(turtle):
     all = False
     imp_objects = []
     # cv2.namedWindow(WINDOW)
-    ang_vel = 0.55
+
     yellow = 0
     blue = 0
     while not all:
@@ -47,7 +47,7 @@ def scan_for_ball(turtle):
                 found, count = get_objects(turtle, segment.color, imp_objects)
                 blue += count
                 imp_objects.extend(found)
-                ang_vel = -ang_vel
+
         print("--------------------", imp_objects)
         if blue == 2 and yellow == 1:
             all = True

@@ -20,6 +20,7 @@ def is_close(obj1, obj2): # says if 2 objects are close togehter in space
     obj2_x, obj2_y = obj2.coords_2D
     dist_2D = math.sqrt(math.pow(obj1_x - obj2_x, 2) + math.pow(obj1_y - obj2_y, 2))
     print("dist:",dist_2D)
+    # Gate poles cannot be closer than 0.7 meter
     return dist_2D < 0.5
 
 

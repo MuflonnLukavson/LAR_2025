@@ -61,7 +61,7 @@ def color_tube_segmentation(hsv, color, avg_bright, point_c):
 
 def segment_all(img, point_c = []):
     """
-    Funtion segments all possible colors and ball separatly. 
+    Function segments all possible colors and ball separatly. 
     On each color is called function for tube segmentation accroding to color.
     Afterwards the ball is segmented
     
@@ -73,7 +73,7 @@ def segment_all(img, point_c = []):
     colors = ["blue", "red", "green"]
     mask = []
     objects = []
-    # goint threw colors
+    # going threw colors
     for color in colors:
         new_mask, new_obj = color_tube_segmentation(hsv, color, bright, point_c)
         if len(mask) == 0:

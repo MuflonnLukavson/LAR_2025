@@ -32,18 +32,15 @@ def ball_segmentation(hsv, avg_bright, point_c):
     # print(out[0], "\n --next-- \n",out[2], "\n --next-- \n", out[3])
     # Getting countours 
 
-    rem_out = []
+
     for i in range(1, len(out[2])):
         c, r, x_len, y_len, area = out[2][i]
-        if ((area < 500) or (r + y_len < 100)):
+        if ((area < 500) or (r + y_len < 80)):
             pass
             im.clear_mask(mask, r, c, x_len, y_len)
         elif ( im.check_prop_circle(x_len, y_len)):
             im.clear_mask(mask, r, c, x_len, y_len)
-        else:
-            rem_out.append(out[2][i])
-            pass
-    rem_out = rem_out[::-1]
+
 
     out = cv2.connectedComponentsWithStats(mask)
 

@@ -25,15 +25,14 @@ class Object():
     def trasform_pos_pc2ref(self, odo):
         print("odo:", odo)
         x,y = self.pc_pos[0], self.pc_pos[2]
-        #TODO
         theta = odo[2]
         t1, t2 = odo[1], odo[0]
         c, s = np.cos(theta), np.sin(theta)
         R_matrix = np.array(((c , -s),(s, c)))
-        H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
-        H_inv = np.linalg.inv(H_matrix)
+        # H_matrix = np.array(((c, -s, t1),(s, c, t2),(0,0,1)))
+        # H_inv = np.linalg.inv(H_matrix)
         if len(self.pc_pos) > 0:
-            coords = H_matrix.dot(self.pc_pos)
+            # coords = H_matrix.dot(self.pc_pos)
             coords_2 = (R_matrix).dot(([x - t1, y - t2]))
 
         print(coords_2) 
@@ -44,12 +43,12 @@ class Object():
 
     def map_to_pc(self, im_x, im_y, pc):
         """
-        Returns the average point cloud coordinates of a 5x5 neighborhood
+        Returns the average point cloud coordinates of a 5x5 area of pixels
         around (im_x, im_y). Coordinates are in meters.
         Ignores NaN values.
         """
-        x = int(round(im_x))
-        y = int(round(im_y))
+        x = int(round(im_x-2))
+        y = int(round(im_y-2))
 
         valid_points = []
 
@@ -66,6 +65,6 @@ class Object():
             avg_pos = np.mean(valid_points, axis=0)
             return avg_pos.tolist()
         else:
-            return [float('nan'), float('nan'), float('nan')]  # or handle as needed
+            return [float('nan'), float('nan'), float('nan')]
 
     
