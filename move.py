@@ -8,6 +8,7 @@ import cv2
 
 turtle = Turtlebot(pc=True, rgb = True)
 rate = Rate(100)
+sec = help.Security() 
 
 WINDOW = "test"
 
@@ -15,7 +16,7 @@ WINDOW = "test"
 def rot_30_deg(turtle):
     t = get_time()
     rate = Rate(100)
-    while (get_time() - t) < 1.75:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and (get_time() - t) < 1.75:
         turtle.cmd_velocity(angular=0.55)
         rate.sleep()
 
@@ -27,7 +28,7 @@ def scan_for_ball(turtle):
 
     yellow = 0
     blue = 0
-    while not all:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and not all:
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
         pc = turtle.get_point_cloud()
@@ -87,7 +88,7 @@ def go(dis, max_speed, accel):
     odo = turtle.get_odometry()
     err = dis - odo[0]
     prev_speed = 0
-    while err > poss_err:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and err > poss_err:
         go_speed = min_speed + abs(err * P_go)
         if go_speed > max_speed:
             go_speed = max_speed
@@ -112,7 +113,7 @@ def go_new(x, y, max_speed):
     err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
     prev_speed = 0
     cnt = 0
-    while err > poss_err:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and err > poss_err:
         go_speed = min_speed + abs(err * P_go)
         if go_speed > max_speed:
             go_speed = max_speed
@@ -144,7 +145,7 @@ def rot(rot, max_rot):
         minus=True
         rot = abs(rot)
     err = rot - abs(odo[2])
-    while err > 0.1:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and err > 0.1:
         rot_speed = 0.157 + abs(err * P_rot)
         if rot_speed > max_rot:
             rot_speed = max_rot
@@ -176,7 +177,7 @@ def rot_new(rot, max_rot):
         want = want + (2 * m.pi)
         
     err = want - odo[2]
-    while err > 0.01 or err < -0.01:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and err > 0.01 or err < -0.01:
         rot_speed = min_rot + abs(err * P_rot)
         if rot_speed > max_rot:
             rot_speed = max_rot
@@ -195,7 +196,7 @@ def rot_new(rot, max_rot):
 def is_all():
     all = False
     cv2.namedWindow(WINDOW)
-    while not all:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and not all:
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
         yellow = 0
@@ -285,7 +286,7 @@ def goal(dis, speed, accel):
     odo = turtle.get_odometry()
     err = dis - odo[0]
     prev_speed = 0
-    while err > poss_err:
+    while not turtle.is_shutting_down() and err > poss_err:
         go_speed = speed
         if (go_speed - prev_speed) > accel:
             go_speed = prev_speed + accel
@@ -354,7 +355,7 @@ def main():
     turtle = Turtlebot(pc=True, rgb = True)
     rate = Rate(100)
     turtle.reset_odometry()
-    sec = help.Security()  
+ 
     ## TODO - implement security feature, so that robot stops when he bumbs into something
     ## - Change in help_func self.button = False;
     turtle.register_button_event_cb(sec.button_cb)
