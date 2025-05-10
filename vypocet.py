@@ -45,6 +45,7 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
 
 
     # Calculation of detour position
+    # TODO only one detour position - might not help to get there
     det_pos = [new_ball[0]-ball_mid_vec[1]/ratio, new_ball[1]+ball_mid_vec[0]/ratio] # kdyby bylo třeba objížďka
     me2ball = [new_ball[0] - me[0], new_ball[1] - me[1]]
     print("me2ball", me2ball)
