@@ -53,7 +53,7 @@ def kick_pos(ball,post1,post2, me): # najdi místo výkopu
     det_pos2= [new_ball[0] - me2ball[1] / ratio_det, new_ball[1] + me2ball[0] / ratio_det]
     print(det_pos, det_pos2)
     
-    return kick, det_pos
+    return kick, det_pos2
 
 def ang_to_ball(ball,me): #bere pc_pos jako ball
     #new_ball = ball_corr(ball, me)
