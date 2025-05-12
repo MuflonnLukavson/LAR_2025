@@ -242,7 +242,7 @@ def ball_center_cam():
         for segment in segs:
             if segment.color == "yellow":
                 turtle.cmd_velocity(angular=0)
-                err = segment.pc_pos[0] - 1.5
+                err = segment.pc_pos[0] - 0.015
                 if err > 0.008:
                     turtle.cmd_velocity(angular=(-0.45))
                     if bf == 1:
