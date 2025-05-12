@@ -342,7 +342,7 @@ def main():
     turtle.register_bumper_event_cb(sec.bumper_cb)
     ready2start = False
 
-    if len(sys.argv) > 1: 
+    if not len(sys.argv) > 1: 
         while not ready2start:
             ready2start = sec.button_pressed
 
