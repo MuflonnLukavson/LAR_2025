@@ -342,8 +342,9 @@ def main():
     turtle.register_bumper_event_cb(sec.bumper_cb)
     ready2start = False
 
-    while not ready2start:
-        ready2start = sec.button_pressed
+    if len(sys.argv) > 1: 
+        while not ready2start:
+            ready2start = sec.button_pressed
 
     turtle.play_sound(2)
 
@@ -360,7 +361,8 @@ def main():
             and not ready2goal and not sec.bumped2obst:
         # scan for objects
         imp_obj = scan_for_ball(turtle)
-
+        if sec.bumped2obst:
+            break
         # claculate distance and angle to make a move
         distance, angle, collision = get_dist_angle(turtle, imp_obj)
         ready2goal = is_ready(distance, collision)
