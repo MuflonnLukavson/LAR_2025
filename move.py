@@ -385,6 +385,7 @@ def main():
                 if segment.color == "yellow":
                     dis = segment.pc_pos[2] ## Distance to ball
             ball_center_cam()
+            dis = goal_dis(view)
             if dis > 0:
                 goal(dis, 20, 0.01)
                 turtle.play_sound(1)
