@@ -390,7 +390,7 @@ def main():
             ball_center_cam()
             dis = goal_dis(view)
             if dis > 0:
-                goal(dis, 20, 0.01)
+                goal(dis, 15, 0.01)
                 turtle.play_sound(1)
                 break
 
