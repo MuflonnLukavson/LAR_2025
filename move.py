@@ -28,6 +28,7 @@ def scan_for_ball(turtle):
 
     yellow = 0
     blue = 0
+    timeout = get_time()
     while not turtle.is_shutting_down() and not sec.bumped2obst and not all:
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
@@ -37,9 +38,10 @@ def scan_for_ball(turtle):
         segs, mask = seg.segment_all(img, pc)
         # cv2.imshow(WINDOW, mask)    
         # cv2.waitKey(1)
+        ##print("-----------")
+        ##print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
         for segment in segs:
             segment.trasform_pos_pc2ref(odo)
-            print("seg:",segment)
             if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
                 found, count = get_objects(turtle, segment.color, imp_objects)
                 imp_objects.extend(found)
@@ -49,13 +51,18 @@ def scan_for_ball(turtle):
                 blue += count
                 imp_objects.extend(found)
 
-        print("--------------------", imp_objects)
         if blue == 2 and yellow == 1:
             all = True
+        elif blue > 2 or yellow > 1:
+            rot_30_deg(turtle)
+            imp_objects = []
         else:
             rot_30_deg(turtle)
-    
-    print(imp_objects)
+        #if timeout + 40 > get_time():
+        #    imp_objects = []
+        #    yellow = 0
+        #    blue = 0
+
     return imp_objects
 
 def get_objects(turtle, color, imp_objects=[]):
@@ -102,38 +109,6 @@ def go(dis, max_speed, accel):
     odo = turtle.get_odometry()
     turtle.wait_for_odometry()
 
-def go_new(x, y, max_speed): 
-    P_go = 0.5
-    accel = 0.005
-    min_speed = 0.1
-    poss_err = 0.09
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    odo = turtle.get_odometry()
-    err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
-    prev_speed = 0
-    cnt = 0
-    while not turtle.is_shutting_down() and not sec.bumped2obst and err > poss_err:
-        go_speed = min_speed + abs(err * P_go)
-        if go_speed > max_speed:
-            go_speed = max_speed
-        if (go_speed - prev_speed) > accel:
-            go_speed = prev_speed + accel
-        prev_speed = go_speed
-        turtle.cmd_velocity(linear=go_speed)
-        odo = turtle.get_odometry()
-        old_err = err
-        err = m.sqrt((x - odo[0])**2 + (y - odo[1])**2)
-        if old_err < err:
-            cnt += 1
-
-        if cnt > 5:
-            print("Přejel jsem to")
-            return 1
-        #print(cnt)
-        rate.sleep()
-    return 0
-
 def rot(rot, max_rot):
     turtle.reset_odometry()
     P_rot = 1.5
@@ -145,7 +120,7 @@ def rot(rot, max_rot):
         minus=True
         rot = abs(rot)
     err = rot - abs(odo[2])
-    while not turtle.is_shutting_down() and not sec.bumped2obst and err > 0.1:
+    while not turtle.is_shutting_down() and not sec.bumped2obst and err > 0.01:
         rot_speed = 0.157 + abs(err * P_rot)
         if rot_speed > max_rot:
             rot_speed = max_rot
@@ -161,38 +136,6 @@ def rot(rot, max_rot):
         err = rot - abs(odo[2])
         rate.sleep()
 
-def rot_new(rot, max_rot):
-    P_rot = 1.5
-    min_rot = 0.2
-    turtle.wait_for_odometry()
-    turtle.wait_for_odometry()
-    minus = False
-    odo = turtle.get_odometry()
-    want = odo[2] + rot
-    if rot < 0:
-        minus=True
-    if want > m.pi:
-        want = want - (2 * m.pi)
-    elif want < -m.pi:
-        want = want + (2 * m.pi)
-        
-    err = want - odo[2]
-    while not turtle.is_shutting_down() and not sec.bumped2obst and err > 0.01 or err < -0.01:
-        rot_speed = min_rot + abs(err * P_rot)
-        if rot_speed > max_rot:
-            rot_speed = max_rot
-        
-        if minus:
-            rot_speed = -rot_speed
-            turtle.cmd_velocity(angular=rot_speed)
-        else:
-            turtle.cmd_velocity(angular=rot_speed)
-            
-        turtle.cmd_velocity(angular=rot_speed)
-        odo = turtle.get_odometry()
-        err = want - odo[2]
-        rate.sleep()
-
 def is_all():
     all = False
     cv2.namedWindow(WINDOW)
@@ -205,12 +148,10 @@ def is_all():
         cv2.imshow(WINDOW, mask)    
         cv2.waitKey(1)
         for segment in segs:
-            print(segment.color)
             if segment.color == "yellow":
                 yellow += 1
             if segment.color == "blue":
                 blue += 1
-        print("--------------------")
         if blue == 2 and yellow == 1:
             all = True
         else:
@@ -233,14 +174,11 @@ def ball_center():
         img = turtle.get_rgb_image()
         segs, mask = seg.segment_all(img)
         for segment in segs:
-            print(segment.color)
             
             if segment.color == "yellow":
                 ball = True
-                print("!!!!ted!!!!!")
                 rot_speed = 0
         turtle.cmd_velocity(angular=rot_speed)
-        print("------------")
         rate.sleep()
 
     ang_to_ball = 0
@@ -254,8 +192,6 @@ def ball_center():
         img = turtle.get_rgb_image()
         segs, mask = seg.segment_all(img, pc)
 
-        print(segs)
-
         turtle.wait_for_odometry()
         turtle.wait_for_odometry()
         odo = turtle.get_odometry()
@@ -268,6 +204,57 @@ def ball_center():
         rate.sleep()
     return ang_to_ball
 
+def ball_center_cam():
+    ball = False
+    ball_centered = False
+    osc = 0
+    bf = 0
+    rot_speed = 0.7
+    while not ball:
+        turtle.wait_for_rgb_image()
+        img = turtle.get_rgb_image()
+        segs, mask = seg.segment_all(img)
+        for segment in segs:
+            if segment.color == "yellow":
+                ball = True
+                rot_speed = 0
+        turtle.cmd_velocity(angular=rot_speed)
+        rate.sleep()
+    
+    while not ball_centered:
+        if osc > 6:
+            rot_30_deg(turtle)
+            osc = 0
+
+        turtle.wait_for_rgb_image()
+        turtle.wait_for_point_cloud()
+
+        pc = turtle.get_point_cloud()
+        img = turtle.get_rgb_image()
+        segs, mask = seg.segment_all(img, pc)
+
+        turtle.wait_for_odometry()
+        turtle.wait_for_odometry()
+        odo = turtle.get_odometry()
+        for segment in segs:
+            if segment.color == "yellow":
+                turtle.cmd_velocity(angular=0)
+                err = segment.pc_pos[0]
+                if err > 0.008:
+                    turtle.cmd_velocity(angular=(-0.45))
+                    if bf == 1:
+                        osc += 1
+                    bf = -1
+                elif err < -0.008:
+                    turtle.cmd_velocity(angular=0.52)
+                    if bf == -1:
+                        osc += 1
+                    bf = 1
+                else:
+                    ball_centered = True
+        rate.sleep()
+    return 0
+
 def get_img_pc(turtle):
     turtle.wait_for_rgb_image()
     turtle.wait_for_point_cloud()
@@ -275,7 +262,6 @@ def get_img_pc(turtle):
     pc = turtle.get_point_cloud()
     img = turtle.get_rgb_image()
     return img, pc
-
 
 def goal(dis, speed, accel):
     poss_err = 0.05
@@ -315,41 +301,35 @@ def goal_dis(view):
     return dis
 
 def get_dist_angle(turtle, imp_objects):
+    posts = []
     for obj in imp_objects:
         if obj.color == "yellow":
             ball = obj
         if obj.color == "blue":
-            if 'tube1' not in locals():
-                tube1 = obj
-            else:
-                tube2 = obj
+            if obj.color == "blue":
+                posts.append(obj)
 
     turtle.wait_for_odometry()
     turtle.wait_for_odometry()
     odo = turtle.get_odometry()
     odo_xy = [odo[0],odo[1]]
 
-    kick_off, det_around = vyp.kick_pos(ball.coords_2D,tube1.coords_2D,tube2.coords_2D, odo)
+    kick_off, det_around = vyp.kick_pos(ball.coords_2D,posts[0].coords_2D,posts[1].coords_2D, odo)
     distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, kick_off)
-    print("uhel: ", angle*(180/m.pi))
-    print("------")
-    print("dist: ", distance)
-    print("kick_off:", kick_off, "det_around:", det_around)
 
-    if vyp.check_collison(imp_objects, angle):
+    if vyp.check_collison(imp_objects, angle, odo_xy):
         print("\n Colision detected! \n")
         distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, det_around)
         collision = True
     else:    
-        print("No colision detected!")
+        print("No colision!!!")
         collision = False
 
     return distance, angle, collision
 
 
 def is_ready(dist, collision):
-    print(f"distance: {dist}, collision: {collision}")
-    return dist < 0.1 and not collision
+    return dist < 0.15 and not collision ## If the correction is smaller than 15cm it will go for goal
 
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
@@ -370,6 +350,8 @@ def main():
     turtle.wait_for_odometry()
     turtle.wait_for_odometry()
 
+    
+
     max_rot = 1.57
     max_go = 0.69
     ready2goal = False
@@ -378,46 +360,33 @@ def main():
             and not ready2goal and not sec.bumped2obst:
         # scan for objects
         imp_obj = scan_for_ball(turtle)
-        print(imp_obj)
 
         # claculate distance and angle to make a move
         distance, angle, collision = get_dist_angle(turtle, imp_obj)
         ready2goal = is_ready(distance, collision)
-
-        print("uhel: ", angle*(180/m.pi))
-        print("------")
-        print("dist: ", distance)
-        print("ready2goal",ready2goal)
         # if is not at goaling position move according to calculated values
         if not ready2goal:
             ball_ang = ball_center()
-            print("angle corrected: ", (ball_ang+angle)*(180/m.pi), "angle:",  (angle)*(180/m.pi))
-
+            turtle.wait_for_odometry()
             odo = turtle.get_odometry()
             back_angle = vyp.get_ret_angle(odo, angle + ball_ang)
-
-
-            rot_new(angle + ball_ang, max_rot)
+            rot(angle + ball_ang, max_rot)
             go(distance, max_go, 0.005)
 
-            rot_new(back_angle, max_rot)
         else:
             ## Proceed with scoring a goal
-            print("\nGoing for gall!!\n")
+            dis = 0.60
             imp_obj = scan_for_ball(turtle)
             img, pc = get_img_pc(turtle)
             view, mask = seg.segment_all(img, pc)
-            dis = goal_dis(view)
-            print(dis)
-            input()
+            for segment in view:
+                if segment.color == "yellow":
+                    dis = segment.pc_pos[2] ## Distance to ball
+            ball_center_cam()
             if dis > 0:
-                goal(dis, 15, 0.01)
+                goal(dis, 20, 0.01)
                 turtle.play_sound(1)
                 break
-
-        input()
-
-
 
 if __name__ == '__main__':
     main()

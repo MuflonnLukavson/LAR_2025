@@ -21,9 +21,9 @@ class Security():
 
         # Print the event
         print('DEBUG: {} bumper {}'.format(bumper, state))
+        self.bumped2obst = True
         if bumper == 1:
             self.bumper = True
-            self.bumped2obst = True
         else:
             self.bumper = False 
 
