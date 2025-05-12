@@ -389,7 +389,7 @@ def main():
                 if segment.color == "yellow":
                     dis = segment.pc_pos[2] ## Distance to ball
             ball_center_cam()
-            dis = goal_dis(view)
+            dis = goal_dis(imp_obj)
             print("Dis",dis)
             if dis > 0:
                 goal(dis, 15, 0.01)
