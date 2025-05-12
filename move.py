@@ -332,7 +332,7 @@ def get_dist_angle(turtle, imp_objects):
 
 
 def is_ready(dist, collision):
-    return dist < 0.15 and not collision ## If the correction is smaller than 15cm it will go for goal
+    return dist < 0.10 and not collision ## If the correction is smaller than 15cm it will go for goal
 
 def main():
     turtle = Turtlebot(pc=True, rgb = True)
