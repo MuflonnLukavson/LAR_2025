@@ -23,7 +23,7 @@ class Object():
         return f"{self.color}, im_center: {self.im_center_pos}, point_cloud: {self.pc_pos}, 2D: {self.coords_2D}\n"
 
     def trasform_pos_pc2ref(self, odo):
-        print("odo:", odo)
+        # print("odo:", odo)
         x,y = self.pc_pos[0], self.pc_pos[2]
         theta = odo[2]
         t1, t2 = odo[1], odo[0]
@@ -35,7 +35,7 @@ class Object():
             # coords = H_matrix.dot(self.pc_pos)
             coords_2 = (R_matrix).dot(([x - t1, y - t2]))
 
-        print(coords_2) 
+        # print(coords_2) 
         self.coords_2D = cp.deepcopy(coords_2)
 
     def has_coords_2D(self):
