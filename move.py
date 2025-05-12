@@ -318,13 +318,18 @@ def get_dist_angle(turtle, imp_objects):
     odo = turtle.get_odometry()
     odo_xy = [odo[0],odo[1]]
 
-    kick_off, det_around = vyp.kick_pos(ball.coords_2D,posts[0].coords_2D,posts[1].coords_2D, odo)
+    kick_off, det_around1, det_around2 = vyp.kick_pos(ball.coords_2D,posts[0].coords_2D,posts[1].coords_2D, odo)
     print("Kick off: ",kick_off)
     distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, kick_off)
     print("Distance, angle to kick off: ",distance, angle)
 
     if vyp.check_collison(imp_objects, angle, odo_xy):
         print("\n Colision detected! \n")
+        if vyp.dis_between_pos(det_around1, kick_off) < vyp.dis_between_pos(det_around2, kick_off):
+            det_around = det_around1
+        else:
+            det_around = det_around2
+
         distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, det_around)
         collision = True
     else:    
