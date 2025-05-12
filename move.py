@@ -365,6 +365,7 @@ def main():
         # scan for objects
         imp_obj = scan_for_ball(turtle)
         if sec.bumped2obst:
+            print("\nBumped!\n")
             break
         # claculate distance and angle to make a move
         distance, angle, collision = get_dist_angle(turtle, imp_obj)
@@ -389,10 +390,12 @@ def main():
                     dis = segment.pc_pos[2] ## Distance to ball
             ball_center_cam()
             dis = goal_dis(view)
+            print("Dis",dis)
             if dis > 0:
                 goal(dis, 15, 0.01)
                 turtle.play_sound(1)
                 break
+        print("\nProgram ended\n")
 
 if __name__ == '__main__':
     main()
