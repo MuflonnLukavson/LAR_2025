@@ -39,8 +39,8 @@ def scan_for_ball(turtle):
         # cv2.imshow(WINDOW, mask)    
         # cv2.waitKey(1)
         ##print("-----------")
-        print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
-        print(imp_objects)
+        # print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
+        # print(imp_objects)
         for segment in segs:
             segment.trasform_pos_pc2ref(odo)
             if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
@@ -213,6 +213,7 @@ def ball_center_cam():
     osc = 0
     bf = 0
     rot_speed = 0.7
+    turtle.reset_odometry()
     while not ball:
         turtle.wait_for_rgb_image()
         img = turtle.get_rgb_image()
@@ -225,7 +226,7 @@ def ball_center_cam():
         rate.sleep()
     
     while not ball_centered:
-        if osc > 6:
+        if osc > 10:
             rot_30_deg(turtle)
             osc = 0
 
@@ -243,12 +244,12 @@ def ball_center_cam():
             if segment.color == "yellow":
                 turtle.cmd_velocity(angular=0)
                 err = segment.pc_pos[0] - 0.015
-                if err > 0.008:
+                if err > 0.01:
                     turtle.cmd_velocity(angular=(-0.45))
                     if bf == 1:
                         osc += 1
                     bf = -1
-                elif err < -0.008:
+                elif err < -0.01:
                     turtle.cmd_velocity(angular=0.52)
                     if bf == -1:
                         osc += 1
