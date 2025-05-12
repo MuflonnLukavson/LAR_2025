@@ -318,7 +318,9 @@ def get_dist_angle(turtle, imp_objects):
     odo_xy = [odo[0],odo[1]]
 
     kick_off, det_around = vyp.kick_pos(ball.coords_2D,posts[0].coords_2D,posts[1].coords_2D, odo)
+    print("Kick off: ",kick_off)
     distance, angle = vyp.dist_angle(odo_xy, ball.coords_2D, kick_off)
+    print("Distance to kick off: ",distance)
 
     if vyp.check_collison(imp_objects, angle, odo_xy):
         print("\n Colision detected! \n")
