@@ -40,7 +40,6 @@ def scan_for_ball(turtle):
         # cv2.waitKey(1)
         ##print("-----------")
         # print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
-        # print(imp_objects)
         for segment in segs:
             segment.trasform_pos_pc2ref(odo)
             if segment.color == "yellow" and not vyp.already_seen(imp_objects, segment):
@@ -65,6 +64,7 @@ def scan_for_ball(turtle):
         #    imp_objects = []
         #    yellow = 0
         #    blue = 0
+        print(imp_objects)
 
     return imp_objects
 
