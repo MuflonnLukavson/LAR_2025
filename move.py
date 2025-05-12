@@ -377,6 +377,7 @@ def main():
         # if is not at goaling position move according to calculated values
         if not ready2goal or starting_pos:
             starting_pos = False
+            ready2goal = False
             ball_ang = ball_center()
             turtle.wait_for_odometry()
             odo = turtle.get_odometry()
