@@ -39,7 +39,7 @@ def scan_for_ball(turtle):
         # cv2.imshow(WINDOW, mask)    
         # cv2.waitKey(1)
         ##print("-----------")
-        ##print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
+        print("uz jsem viděl zlutá,modrá,celkem:",yellow, blue, len(imp_objects))
         print(imp_objects)
         for segment in segs:
             segment.trasform_pos_pc2ref(odo)
@@ -57,6 +57,8 @@ def scan_for_ball(turtle):
         elif blue > 2 or yellow > 1:
             rot_30_deg(turtle)
             imp_objects = []
+            blue = 0
+            yellow = 0
         else:
             rot_30_deg(turtle)
         #if timeout + 40 > get_time():
